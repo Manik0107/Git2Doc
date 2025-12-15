@@ -193,10 +193,5 @@ This project is licensed under the Apache License 2.0 - see the [LICENSE](LICENS
 
 ---
 
-<div align="center">
 
-**Made with ❤️ using AI and Open Source**
 
-⭐ Star this repo if you find it useful!
-
-</div>
