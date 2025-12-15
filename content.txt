@@ -1,0 +1,475 @@
+Transformer
+
+Article
+Talk
+Read
+Edit
+View history
+
+Tools
+Appearance hide
+Text
+
+Small
+
+Standard
+
+Large
+Width
+
+Standard
+
+Wide
+Color (beta)
+
+Automatic
+
+Light
+
+Dark
+From Wikipedia, the free encyclopedia
+This article is about the electrical device. For other uses, see Transformer (disambiguation).
+Transformer
+
+An O-core transformer consisting of two coils of copper wire wrapped around a magnetic core
+Component type	Passive
+Working principle	Electromagnetic induction
+Inventor	Michael Faraday[1]
+Invention year	1831
+Electronic symbol
+
+In electrical engineering, a transformer is a passive component that transfers electrical energy from one electrical circuit to another circuit, or multiple circuits. A varying current in any coil of the transformer produces a varying magnetic flux in the transformer's core, which induces a varying electromotive force (EMF) across any other coils wound around the same core. Electrical energy can be transferred between separate coils without a metallic (conductive) connection between the two circuits. Faraday's law of induction, discovered in 1831, describes the induced voltage effect in any coil due to a changing magnetic flux encircled by the coil.
+
+Transformers are used to change AC voltage levels, such transformers being termed step-up or step-down type to increase or decrease voltage level, respectively. Transformers can also be used to provide galvanic isolation between circuits as well as to couple stages of signal-processing circuits. Since the invention of the first constant-potential transformer in 1885, transformers have become essential for the transmission, distribution, and utilization of alternating current electric power.[2] A wide range of transformer designs is encountered in electronic and electric power applications. Transformers range in size from RF transformers less than a cubic centimeter in volume, to units weighing hundreds of tons used to interconnect the power grid.
+
+Principles
+Ideal transformer equations
+
+By Faraday's law of induction:
+
+V
+P
+=
+−
+N
+P
+d
+Φ
+d
+t
+{\displaystyle V_{\text{P}}=-N_{\text{P}}{\frac {\mathrm {d} \Phi }{\mathrm {d} t}}}		Eq. 1[a][3]
+V
+S
+=
+−
+N
+S
+d
+Φ
+d
+t
+{\displaystyle V_{\text{S}}=-N_{\text{S}}{\frac {\mathrm {d} \Phi }{\mathrm {d} t}}}		Eq. 2
+where 
+V
+{\displaystyle V} is the instantaneous voltage, 
+N
+{\displaystyle N} is the number of turns in a winding, dΦ/dt is the derivative of the magnetic flux Φ through one turn of the winding over time (t), and subscripts P and S denote primary and secondary.
+
+Dividing eq. 1 by eq. 2:
+
+Turns ratio 
+=
+V
+P
+V
+S
+=
+N
+P
+N
+S
+=
+a
+{\displaystyle ={\frac {V_{\text{P}}}{V_{\text{S}}}}={\frac {N_{\text{P}}}{N_{\text{S}}}}=a}		Eq. 3
+where for a step-up transformer a < 1 and for a step-down transformer a > 1.[4]
+
+By the law of conservation of energy, apparent, real and reactive power are each conserved in the input and output:
+
+S
+=
+I
+P
+V
+P
+=
+I
+S
+V
+S
+{\displaystyle S=I_{\text{P}}V_{\text{P}}=I_{\text{S}}V_{\text{S}}}		Eq. 4
+where 
+S
+{\displaystyle S} is apparent power and 
+I
+{\displaystyle I} is current.
+
+Combining Eq. 3 and Eq. 4 with this endnote[b][5] gives the ideal transformer identity:
+
+V
+P
+V
+S
+=
+I
+S
+I
+P
+=
+N
+P
+N
+S
+=
+L
+P
+L
+S
+=
+a
+{\displaystyle {\frac {V_{\text{P}}}{V_{\text{S}}}}={\frac {I_{\text{S}}}{I_{\text{P}}}}={\frac {N_{\text{P}}}{N_{\text{S}}}}={\sqrt {\frac {L_{\text{P}}}{L_{\text{S}}}}}=a}		Eq. 5
+where 
+L
+P
+{\displaystyle L_{\text{P}}} is the primary winding self-inductance and 
+L
+S
+{\displaystyle L_{\text{S}}} is the secondary winding self-inductance.
+
+By Ohm's law and the ideal transformer identity:
+
+Z
+L
+=
+V
+S
+I
+S
+{\displaystyle Z_{\text{L}}={\frac {V_{\text{S}}}{I_{\text{S}}}}}		Eq. 6
+Z
+L
+′
+=
+V
+P
+I
+P
+=
+a
+V
+S
+I
+S
+/
+a
+=
+a
+2
+V
+S
+I
+S
+=
+a
+2
+Z
+L
+{\displaystyle Z'_{\text{L}}={\frac {V_{\text{P}}}{I_{\text{P}}}}={\frac {aV_{\text{S}}}{I_{\text{S}}/a}}=a^{2}{\frac {V_{\text{S}}}{I_{\text{S}}}}=a^{2}{Z_{\text{L}}}}		Eq. 7
+where 
+Z
+L
+{\displaystyle Z_{\text{L}}} is the load impedance of the secondary circuit and 
+Z
+L
+′
+{\displaystyle Z'_{\text{L}}} is the apparent load or driving point impedance of the primary circuit, the superscript 
+′
+{\displaystyle '} denoting impedance referred to the primary.
+Ideal transformer
+An ideal transformer is linear, lossless, and perfectly coupled. Perfect coupling implies infinitely high core magnetic permeability and winding inductance and zero net magnetomotive force (i.e. ipnp − isns = 0).[4][c]
+
+
+Ideal transformer connected with source VP on primary and load impedance ZL on secondary, where 0 < ZL < ∞.
+
+Ideal transformer and induction law[d]
+
+A varying current in the transformer's primary winding creates a varying magnetic flux in the transformer core, which is also encircled by the secondary winding. This varying flux at the secondary winding induces a varying electromotive force or voltage in the secondary winding. This electromagnetic induction phenomenon is the basis of transformer action and, in accordance with Lenz's law, the secondary current so produced creates a flux equal and opposite to that produced by the primary winding.
+
+The windings are wound around a core of infinitely high magnetic permeability so that all of the magnetic flux passes through both the primary and secondary windings. With a voltage source connected to the primary winding and a load connected to the secondary winding, the transformer currents flow in the indicated directions and the core magnetomotive force cancels to zero.
+
+According to Faraday's law, since the same magnetic flux passes through both the primary and secondary windings in an ideal transformer, a voltage is induced in each winding proportional to its number of turns. The transformer winding voltage ratio is equal to the winding turns ratio.[7]
+
+An ideal transformer is a reasonable approximation for a typical commercial transformer, with voltage ratio and winding turns ratio both being inversely proportional to the corresponding current ratio.
+
+The load impedance referred to the primary circuit is equal to the turns ratio squared times the secondary circuit load impedance.[8]
+
+Real transformer
+
+Leakage flux of a transformer
+Deviations from ideal transformer
+The ideal transformer model neglects many basic linear aspects of real transformers, including unavoidable losses and inefficiencies.[9]
+
+(a) Core losses, collectively called magnetizing current losses, consisting of[10]
+
+Hysteresis losses due to nonlinear magnetic effects in the transformer core, and
+Eddy current losses due to joule heating in the core that are proportional to the square of the transformer's applied voltage.
+(b) Unlike the ideal model, the windings in a real transformer have non-zero resistances and inductances associated with:
+
+Joule losses due to resistance in the primary and secondary windings[10]
+Leakage flux that escapes from the core and passes through one winding only resulting in primary and secondary reactive impedance.
+(c) similar to an inductor, parasitic capacitance and self-resonance phenomenon due to the electric field distribution. Three kinds of parasitic capacitance are usually considered and the closed-loop equations are provided[11]
+
+Capacitance between adjacent turns in any one layer;
+Capacitance between adjacent layers;
+Capacitance between the core and the layer(s) adjacent to the core;
+Inclusion of capacitance into the transformer model is complicated, and is rarely attempted; the 'real' transformer model's equivalent circuit shown below does not include parasitic capacitance. However, the capacitance effect can be measured by comparing open-circuit inductance, i.e. the inductance of a primary winding when the secondary circuit is open, to a short-circuit inductance when the secondary winding is shorted.
+
+Leakage flux
+Main article: Leakage inductance
+The ideal transformer model assumes that all flux generated by the primary winding links all the turns of every winding, including itself. In practice, some flux traverses paths that take it outside the windings.[12] Such flux is termed leakage flux, and results in leakage inductance in series with the mutually coupled transformer windings.[13] Leakage flux results in energy being alternately stored in and discharged from the magnetic fields with each cycle of the power supply. It is not directly a power loss, but results in inferior voltage regulation, causing the secondary voltage not to be directly proportional to the primary voltage, particularly under heavy load.[12] Transformers are therefore normally designed to have very low leakage inductance.
+
+In some applications increased leakage is desired, and long magnetic paths, air gaps, or magnetic bypass shunts may deliberately be introduced in a transformer design to limit the short-circuit current it will supply.[13] Leaky transformers may be used to supply loads that exhibit negative resistance, such as electric arcs, mercury- and sodium- vapor lamps and neon signs or for safely handling loads that become periodically short-circuited such as electric arc welders.[10]: 485 
+
+Air gaps are also used to keep a transformer from saturating, especially audio-frequency transformers in circuits that have a DC component flowing in the windings.[14] A saturable reactor exploits saturation of the core to control alternating current.
+
+Knowledge of leakage inductance is also useful when transformers are operated in parallel. It can be shown that if the percent impedance[e] and associated winding leakage reactance-to-resistance (X/R) ratio of two transformers were the same, the transformers would share the load power in proportion to their respective ratings. However, the impedance tolerances of commercial transformers are significant. Also, the impedance and X/R ratio of different capacity transformers tends to vary.[16]
+
+Equivalent circuit
+See also: Steinmetz equivalent circuit
+Referring to the diagram, a practical transformer's physical behavior may be represented by an equivalent circuit model, which can incorporate an ideal transformer.[17]
+
+Winding joule losses and leakage reactance are represented by the following series loop impedances of the model:
+
+Primary winding: RP, XP
+Secondary winding: RS, XS.
+In normal course of circuit equivalence transformation, RS and XS are in practice usually referred to the primary side by multiplying these impedances by the turns ratio squared, (NP/NS) 2 = a2.
+
+
+
+Real transformer equivalent circuit
+Core loss and reactance is represented by the following shunt leg impedances of the model:
+
+Core or iron losses: RC
+Magnetizing reactance: XM.
+RC and XM are collectively termed the magnetizing branch of the model.
+
+Core losses are caused mostly by hysteresis and eddy current effects in the core and are proportional to the square of the core flux for operation at a given frequency.[10]: 142–143  The finite permeability core requires a magnetizing current IM to maintain mutual flux in the core. Magnetizing current is in phase with the flux, the relationship between the two being non-linear due to saturation effects. However, all impedances of the equivalent circuit shown are by definition linear and such non-linearity effects are not typically reflected in transformer equivalent circuits.[10]: 142  With sinusoidal supply, core flux lags the induced EMF by 90°. With open-circuited secondary winding, magnetizing branch current I0 equals transformer no-load current.[17]
+
+
+Instrument transformer, with polarity dot and X1 markings on low-voltage ("LV") side terminal
+The resulting model, though sometimes termed 'exact' equivalent circuit based on linearity assumptions, retains a number of approximations.[17] Analysis may be simplified by assuming that magnetizing branch impedance is relatively high and relocating the branch to the left of the primary impedances. This introduces error but allows combination of primary and referred secondary resistances and reactance by simple summation as two series impedances.
+
+Transformer equivalent circuit impedance and transformer ratio parameters can be derived from the following tests: open-circuit test, short-circuit test, winding resistance test, and transformer ratio test.
+
+Transformer EMF equation
+
+If the flux in the core is purely sinusoidal, the relationship for either winding between its rms voltage Erms of the winding, and the supply frequency f, number of turns N, core cross-sectional area A in m2 and peak magnetic flux density Bpeak in Wb/m2 or T (tesla) is given by the universal EMF equation:[10]
+
+E
+rms
+=
+2
+π
+f
+N
+A
+B
+peak
+2
+≈
+4.44
+f
+N
+A
+B
+peak
+{\displaystyle E_{\text{rms}}={\frac {2\pi fNAB_{\text{peak}}}{\sqrt {2}}}\approx 4.44fNAB_{\text{peak}}}
+Polarity
+A dot convention is often used in transformer circuit diagrams, nameplates or terminal markings to define the relative polarity of transformer windings. Positively increasing instantaneous current entering the primary winding's 'dot' end induces positive polarity voltage exiting the secondary winding's 'dot' end. Three-phase transformers used in electric power systems will have a nameplate that indicate the phase relationships between their terminals. This may be in the form of a phasor diagram, or using an alpha-numeric code to show the type of internal connection (wye or delta) for each winding.
+
+Effect of frequency
+The EMF of a transformer at a given flux increases with frequency.[10] By operating at higher frequencies, transformers can be physically more compact because a given core is able to transfer more power without reaching saturation and fewer turns are needed to achieve the same impedance. However, properties such as core loss and conductor skin effect also increase with frequency. Aircraft and military equipment employ 400 Hz power supplies which reduce core and winding weight.[18] Conversely, frequencies used for some railway electrification systems were much lower (e.g. 16.7 Hz and 25 Hz) than normal utility frequencies (50–60 Hz) for historical reasons concerned mainly with the limitations of early electric traction motors. Consequently, the transformers used to step-down the high overhead line voltages were much larger and heavier for the same power rating than those required for the higher frequencies.
+
+
+Power transformer overexcitation condition caused by decreased frequency; flux (green), iron core's magnetic characteristics (red) and magnetizing current (blue).
+Operation of a transformer at its designed voltage but at a higher frequency than intended will lead to reduced magnetizing current. At a lower frequency, the magnetizing current will increase. Operation of a large transformer at other than its design frequency may require assessment of voltages, losses, and cooling to establish if safe operation is practical. Transformers may require protective relays to protect the transformer from overvoltage at higher than rated frequency.
+
+One example is in traction transformers used for electric multiple unit and high-speed train service operating across regions with different electrical standards. The converter equipment and traction transformers have to accommodate different input frequencies and voltage (ranging from as high as 50 Hz down to 16.7 Hz and rated up to 25 kV).
+
+At much higher frequencies the transformer core size required drops dramatically: a physically small transformer can handle power levels that would require a massive iron core at mains frequency. The development of switching power semiconductor devices made switch-mode power supplies viable, to generate a high frequency, then change the voltage level with a small transformer.
+
+Transformers for higher frequency applications such as SMPS typically use core materials with much lower hysteresis and eddy-current losses than those for 50/60 Hz. Primary examples are iron-powder and ferrite cores. The lower frequency-dependant losses of these cores often is at the expense of flux density at saturation. For instance, ferrite saturation occurs at a substantially lower flux density than laminated iron.
+
+Large power transformers are vulnerable to insulation failure due to transient voltages with high-frequency components, such as caused in switching or by lightning.
+
+Energy losses
+Transformer energy losses are dominated by winding and core losses. Transformers' efficiency tends to improve with increasing transformer capacity.[19] The efficiency of typical distribution transformers is between about 98 and 99 percent.[19][20]
+
+As transformer losses vary with load, it is often useful to tabulate no-load loss, full-load loss, half-load loss, and so on. Hysteresis and eddy current losses are constant at all load levels and dominate at no load, while winding loss increases as load increases. The no-load loss can be significant, so that even an idle transformer constitutes a drain on the electrical supply. Designing energy efficient transformers for lower loss requires a larger core, good-quality silicon steel, or even amorphous steel for the core and thicker wire, increasing initial cost. The choice of construction represents a trade-off between initial cost and operating cost.[21]
+
+Transformer losses arise from:
+
+Winding joule losses
+Current flowing through a winding's conductor causes joule heating due to the resistance of the wire. As frequency increases, skin effect and proximity effect causes the winding's resistance and, hence, losses to increase.
+Core losses
+Hysteresis losses
+Each time the magnetic field is reversed, a small amount of energy is lost due to hysteresis within the core, caused by motion of the magnetic domains within the steel. According to Steinmetz's formula, the heat energy due to hysteresis is given by
+W
+h
+≈
+η
+β
+max
+1.6
+{\displaystyle W_{\text{h}}\approx \eta \beta _{\text{max}}^{1.6}} and,
+hysteresis loss is thus given by
+P
+h
+≈
+W
+h
+f
+≈
+η
+f
+β
+max
+1.6
+{\displaystyle P_{\text{h}}\approx {W}_{\text{h}}f\approx \eta {f}\beta _{\text{max}}^{1.6}}
+where, f is the frequency, η is the hysteresis coefficient and βmax is the maximum flux density, the empirical exponent of which varies from about 1.4 to 1.8 but is often given as 1.6 for iron.[21] For more detailed analysis, see Magnetic core and Steinmetz's equation.
+Eddy current losses
+Eddy currents are induced in the conductive metal transformer core by the changing magnetic field, and this current flowing through the resistance of the iron dissipates energy as heat in the core. The eddy current loss is a complex function of the square of supply frequency and inverse square of the material thickness.[21] Eddy current losses can be reduced by making the core of a stack of laminations (thin plates) electrically insulated from each other, rather than a solid block; all transformers operating at low frequencies use laminated or similar cores.
+Magnetostriction related transformer hum
+Magnetic flux in a ferromagnetic material, such as the core, causes it to physically expand and contract slightly with each cycle of the magnetic field, an effect known as magnetostriction, the frictional energy of which produces an audible noise known as mains hum or "transformer hum".[22] This transformer hum is especially objectionable in transformers supplied at power frequencies and in high-frequency flyback transformers associated with television CRTs.
+Stray losses
+Leakage inductance is by itself largely lossless, since energy supplied to its magnetic fields is returned to the supply with the next half-cycle. However, any leakage flux that intercepts nearby conductive materials such as the transformer's support structure will give rise to eddy currents and be converted to heat.[23]
+Radiative
+There are also radiative losses due to the oscillating magnetic field but these are usually small.
+Mechanical vibration and audible noise transmission
+In addition to magnetostriction, the alternating magnetic field causes fluctuating forces between the primary and secondary windings. This energy incites vibration transmission in interconnected metalwork, thus amplifying audible transformer hum.[24]
+Construction
+Cores
+
+Core form = core type; shell form = shell type
+Closed-core transformers are constructed in 'core form' or 'shell form'. When windings surround the core, the transformer is core form; when windings are surrounded by the core, the transformer is shell form.[25] Shell form design may be more prevalent than core form design for distribution transformer applications due to the relative ease in stacking the core around winding coils.[25] Core form design tends to, as a general rule, be more economical, and therefore more prevalent, than shell form design for high voltage power transformer applications at the lower end of their voltage and power rating ranges (less than or equal to, nominally, 230 kV or 75 MVA). At higher voltage and power ratings, shell form transformers tend to be more prevalent.[25][26][27] Shell form design tends to be preferred for extra-high voltage and higher MVA applications because, though more labor-intensive to manufacture, shell form transformers are characterized as having inherently better kVA-to-weight ratio, better short-circuit strength characteristics and higher immunity to transit damage.[27]
+
+Laminated steel cores
+
+Shell type transformer with laminated core showing edges of laminations at the top of the photo
+
+Interleaved E-I transformer laminations showing air gap and flux paths
+Transformers for use at power or audio frequencies typically have cores made of high permeability silicon steel.[28] The steel has a permeability many times that of free space and the core thus serves to greatly reduce the magnetizing current and confine the flux to a path which closely couples the windings.[29] Early transformer developers soon realized that cores constructed from solid iron resulted in prohibitive eddy current losses, and their designs mitigated this effect with cores consisting of bundles of insulated iron wires.[30] Later designs constructed the core by stacking layers of thin steel laminations, a principle that has remained in use. Each lamination is insulated from its neighbors by a thin non-conducting layer of insulation.[31] The transformer universal EMF equation can be used to calculate the core cross-sectional area for a preferred level of magnetic flux.[10]
+
+The effect of laminations is to confine eddy currents to highly elliptical paths that enclose little flux, and so reduce their magnitude. Thinner laminations reduce losses,[28] but are more laborious and expensive to construct.[32] Thin laminations are generally used on high-frequency transformers, with some of very thin steel laminations able to operate up to 10 kHz.
+
+
+Laminating the core greatly reduces eddy-current losses
+One common design of laminated core is made from interleaved stacks of E-shaped steel sheets capped with I-shaped pieces, leading to its name of E-I transformer.[32] Such a design tends to exhibit more losses, but is very economical to manufacture. The cut-core or C-core type is made by winding a steel strip around a rectangular form and then bonding the layers together. It is then cut in two, forming two C shapes, and the core assembled by binding the two C halves together with a steel strap.[32] They have the advantage that the flux is always oriented parallel to the metal grains, reducing reluctance.
+
+A steel core's remanence means that it retains a static magnetic field when power is removed. When power is then reapplied, the residual field will cause a high inrush current until the effect of the remaining magnetism is reduced, usually after a few cycles of the applied AC waveform.[33] Overcurrent protection devices such as fuses must be selected to allow this harmless inrush to pass.
+
+On transformers connected to long, overhead power transmission lines, induced currents due to geomagnetic disturbances during solar storms can cause saturation of the core and operation of transformer protection devices.[34]
+
+Distribution transformers can achieve low no-load losses by using cores made with low-loss high-permeability silicon steel or amorphous (non-crystalline) metal alloy. The higher initial cost of the core material is offset over the life of the transformer by its lower losses at light load.[35]
+
+Solid cores
+Powdered iron cores are used in circuits such as switch-mode power supplies that operate above mains frequencies and up to a few tens of kilohertz. These materials combine high magnetic permeability with high bulk electrical resistivity. For frequencies extending beyond the VHF band, cores made from non-conductive magnetic ceramic materials called ferrites are common.[32] Some radio-frequency transformers also have movable cores (sometimes called 'slugs') which allow adjustment of the coupling coefficient (and bandwidth) of tuned radio-frequency circuits.
+
+Toroidal cores
+
+Small toroidal core transformer
+Toroidal transformers are built around a ring-shaped core, which, depending on operating frequency, is made from a long strip of silicon steel or permalloy wound into a coil, powdered iron, or ferrite.[36] A strip construction ensures that the grain boundaries are optimally aligned, improving the transformer's efficiency by reducing the core's reluctance. The closed ring shape eliminates air gaps inherent in the construction of an E-I core.[10] : 485  The cross-section of the ring is usually square or rectangular, but more expensive cores with circular cross-sections are also available. The primary and secondary coils are often wound concentrically to cover the entire surface of the core. This minimizes the length of wire needed and provides screening to minimize the core's magnetic field from generating electromagnetic interference.
+
+Toroidal transformers are more efficient than the cheaper laminated E-I types for a similar power level. Other advantages compared to E-I types, include smaller size (about half), lower weight (about half), less mechanical hum (making them superior in audio amplifiers), lower exterior magnetic field (about one tenth), low off-load losses (making them more efficient in standby circuits), single-bolt mounting, and greater choice of shapes. The main disadvantages are higher cost and limited power capacity (see Classification parameters below). Because of the lack of a residual gap in the magnetic path, toroidal transformers also tend to exhibit higher inrush current, compared to laminated E-I types.
+
+Ferrite toroidal cores are used at higher frequencies, typically between a few tens of kilohertz to hundreds of megahertz, to reduce losses, physical size, and weight of inductive components. A drawback of toroidal transformer construction is the higher labor cost of winding. This is because it is necessary to pass the entire length of a coil winding through the core aperture each time a single turn is added to the coil. As a consequence, toroidal transformers rated more than a few kVA are uncommon. Relatively few toroids are offered with power ratings above 10 kVA, and practically none above 25 kVA. Small distribution transformers may achieve some of the benefits of a toroidal core by splitting it and forcing it open, then inserting a bobbin containing primary and secondary windings.[37]
+
+Air cores
+A transformer can be produced by placing the windings near each other, an arrangement termed an "air-core" transformer. An air-core transformer eliminates loss due to hysteresis in the core material.[13] The magnetizing inductance is drastically reduced by the lack of a magnetic core, resulting in large magnetizing currents and losses if used at low frequencies. Air-core transformers are unsuitable for use in power distribution,[13] but are frequently employed in radio-frequency applications.[38] Air cores are also used for resonant transformers such as tesla coils, where they can achieve reasonably low loss despite the low magnetizing inductance.
+
+Windings
+
+Windings are usually arranged concentrically to minimize flux leakage.
+
+Cut view through transformer windings. Legend:
+White: Air, liquid or other insulating medium
+Green spiral: Grain oriented silicon steel
+Black: Primary winding
+Red: Secondary winding
+The electrical conductor used for the windings depends upon the application, but in all cases the individual turns must be electrically insulated from each other to ensure that the current travels throughout every turn. For small transformers, in which currents are low and the potential difference between adjacent turns is small, the coils are often wound from enameled magnet wire. Larger power transformers may be wound with copper rectangular strip conductors insulated by oil-impregnated paper and blocks of pressboard.[39]
+
+High-frequency transformers operating in the tens to hundreds of kilohertz often have windings made of braided Litz wire to minimize the skin-effect and proximity effect losses.[40] Large power transformers use multiple-stranded conductors as well, since even at low power frequencies non-uniform distribution of current would otherwise exist in high-current windings.[39] Each strand is individually insulated, and the strands are arranged so that at certain points in the winding, or throughout the whole winding, each portion occupies different relative positions in the complete conductor. The transposition equalizes the current flowing in each strand of the conductor, and reduces eddy current losses in the winding itself. The stranded conductor is also more flexible than a solid conductor of similar size, aiding manufacture.[39]
+
+The windings of signal transformers minimize leakage inductance and stray capacitance to improve high-frequency response. Coils are split into sections, and those sections interleaved between the sections of the other winding.
+
+
+Power-frequency transformers may have taps at intermediate points on the winding, usually on the higher voltage winding side, for voltage adjustment. Taps may be manually reconnected, or a manual or automatic switch may be provided for changing taps. Automatic on-load tap changers are used in electric power transmission or distribution, on equipment such as arc furnace transformers, or for automatic voltage regulators for sensitive loads. Audio-frequency transformers, used for the distribution of audio to public address loudspeakers, have taps to allow adjustment of impedance to each speaker. A center-tapped transformer is often used in the output stage of an audio power amplifier in a push-pull circuit. Modulation transformers in AM transmitters are very similar.
+
+Cooling
+
+Cutaway view of liquid-immersed transformer. The conservator (reservoir) at top provides liquid-to-atmosphere isolation as coolant level and temperature changes. The walls and fins provide required heat dissipation.
+It is a rule of thumb that the life expectancy of electrical insulation is halved for about every 7 °C to 10 °C increase in operating temperature (an instance of the application of the Arrhenius equation).[41]
+
+Small dry-type and liquid-immersed transformers are often self-cooled by natural convection and radiation heat dissipation. As power ratings increase, transformers are often cooled by forced-air cooling, forced-oil cooling, water-cooling, or combinations of these.[42] Large transformers are filled with transformer oil that both cools and insulates the windings.[43] Transformer oil is often a highly refined mineral oil that cools the windings and insulation by circulating within the transformer tank. The mineral oil and paper insulation system has been extensively studied and used for more than 100 years. It is estimated that 50% of power transformers will survive 50 years of use, that the average age of failure of power transformers is about 10 to 15 years, and that about 30% of power transformer failures are due to insulation and overloading failures.[44][45] Prolonged operation at elevated temperature degrades insulating properties of winding insulation and dielectric coolant, which not only shortens transformer life but can ultimately lead to catastrophic transformer failure.[41] With a great body of empirical study as a guide, transformer oil testing including dissolved gas analysis provides valuable maintenance information.
+
+Building regulations in many jurisdictions require indoor liquid-filled transformers to either use dielectric fluids that are less flammable than oil, or be installed in fire-resistant rooms.[19] Air-cooled dry transformers can be more economical where they eliminate the cost of a fire-resistant transformer room.
+
+The tank of liquid-filled transformers often has radiators through which the liquid coolant circulates by natural convection or fins. Some large transformers employ electric fans for forced-air cooling, pumps for forced-liquid cooling, or have heat exchangers for water-cooling.[43] An oil-immersed transformer may be equipped with a Buchholz relay, which, depending on severity of gas accumulation due to internal arcing, is used to either trigger an alarm or de-energize the transformer.[33] Oil-immersed transformer installations usually include fire protection measures such as walls, oil containment, and fire-suppression sprinkler systems.
+
+Polychlorinated biphenyls (PCBs) have properties that once favored their use as a dielectric coolant, though concerns over their environmental persistence led to a widespread ban on their use.[46] Today, non-toxic, stable silicone-based oils, or fluorinated hydrocarbons may be used where the expense of a fire-resistant liquid offsets additional building cost for a transformer vault.[19][47] However, the long life span of transformers can mean that the potential for exposure can be high long after banning.[48]
+
+Some transformers are gas-insulated. Their windings are enclosed in sealed, pressurized tanks and often cooled by nitrogen or sulfur hexafluoride gas.[47]
+
+Experimental power transformers in the 500–1,000 kVA range have been built with liquid nitrogen or helium cooled superconducting windings, which eliminates winding losses without affecting core losses.[49][50]
+
+Insulation
+
+Substation transformer undergoing testing.
+Insulation must be provided between the individual turns of the windings, between the windings, between windings and core, and at the terminals of the winding.
+
+Inter-turn insulation of small transformers may be a layer of insulating varnish on the wire. Layer of paper or polymer films may be inserted between layers of windings, and between primary and secondary windings. A transformer may be coated or dipped in a polymer resin to improve the strength of windings and protect them from moisture or corrosion. The resin may be impregnated into the winding insulation using combinations of vacuum and pressure during the coating process, eliminating all air voids in the winding. In the limit, the entire coil may be placed in a mold, and resin cast around it as a solid block, encapsulating the windings.[51]
+
+Large oil-filled power transformers use windings wrapped with insulating paper, which is impregnated with oil during assembly of the transformer. Oil-filled transformers use highly refined mineral oil to insulate and cool the windings and core. Construction of oil-filled transformers requires that the insulation covering the windings be thoroughly dried of residual moisture before the oil is introduced. Drying may be done by circulating hot air around the core, by circulating externally heated transformer oil, or by vapor-phase drying (VPD) where an evaporated solvent transfers heat by condensation on the coil and core. For small transformers, resistance heating by injection of current into the windings is used.
+
+Bushings
+Larger transformers are provided with high-voltage insulated bushings made of polymers or porcelain. A large bushing can be a complex structure since it must provide careful control of the electric field gradient without letting the transformer leak oil.[52]
+
+Classification parameters
+
+An electrical substation in Melbourne, Australia showing three of five 220 kV – 66 kV transformers, each with a capacity of 150 MVA
+Camouflaged transformer in Langley City
+Camouflaged transformer in Langley City, Canada
+Transformers can be classified in many ways, such as the following:
+
+Power rating: From a fraction of a volt-ampere (VA) to over a thousand MVA.
+Duty of a transformer: Continuous, short-time, intermittent, periodic, varying.
+Frequency range: Power-frequency, audio-frequency, or radio-frequency.
+Voltage class: From a few volts to hundreds of kilovolts.
+Cooling type: Dry or liquid-immersed; self-cooled, forced air-cooled;forced oil-cooled, water-cooled.
+Application: power supply, impedance matching, output voltage and current stabilizer, pulse, circuit isolation, power distribution, rectifier, arc furnace, amplifier output, etc..
+Basic magnetic form: Core form, shell form, concentric, sandwich.
+Constant-potential transformer descriptor: Step-up, step-down, isolation.
+General winding configuration: By IEC vector group, two-winding combinations of the phase designations delta, wye or star, and zigzag; autotransformer, Scott-T
+Rectifier phase-shift winding configuration: 2-winding, 6-pulse; 3-winding, 12-pulse; . . ., n-winding, [n − 1]·6-pulse; polygon; etc.
+K-factor: A measure of how well the transformer can withstand harmonic loads.[53]
+Applications
+
+Transformer at the Limestone Generating Station in Manitoba, Canada
+Main article: Transformer types
+Various specific electrical application designs require a variety of transformer types. Although they all share the basic characteristic transformer principles, they are customized in construction or electrical properties for certain installation requirements or circuit conditions.
+
+In electric power transmission, transformers allow transmission of electric power at high voltages, which reduces the loss due to heating of the wires. This allows generating plants to be located economically at a distance from electrical consumers.[54] All but a tiny fraction of the world's electrical power has passed through a series of transformers by the time it reaches the consumer.[23]
+
+In many electronic devices, a transformer is used to convert voltage from the distribution wiring to convenient values for the circuit requirements, either directly at the power line frequency or through a switch mode power supply.
+
+Signal and audio transformers are used to couple stages of amplifiers and to match devices such as microphones and record players to the input of amplifiers. Audio transformers allowed telephone circuits to carry on a two-way conversation over a single pair of wires. A balun transformer converts a signal that is referenced to ground to a signal that has balanced voltages to ground, such as between external cables and internal circuits. Isolation transformers prevent leakage of current into the secondary circuit and are used in medical equipment and at construction sites. Resonant transformers are used for coupling between stages of radio receivers, or in high-voltage Tesla coils.
+
