@@ -1,0 +1,172 @@
+{
+    "meta": {
+        "title": "Manim AI Agent Architecture",
+        "layout": "TB"
+    },
+    "node_types": {
+        "entry": {
+            "color": "#1bbcd6",
+            "shape": "box"
+        },
+        "core": {
+            "color": "#2e8b57",
+            "shape": "box"
+        },
+        "tool": {
+            "color": "#d6c44f",
+            "shape": "box"
+        },
+        "external": {
+            "color": "#d9534f",
+            "shape": "box"
+        },
+        "compatibility": {
+            "color": "#4f8a8b",
+            "shape": "box"
+        },
+        "output": {
+            "color": "#7b2d3a",
+            "shape": "box"
+        }
+    },
+    "nodes": [
+        {
+            "id": "run_agent",
+            "label": "run_agent",
+            "type": "entry",
+            "layer": 1
+        },
+        {
+            "id": "agent_workflow",
+            "label": "agent_workflow",
+            "type": "core",
+            "layer": 2
+        },
+        {
+            "id": "document",
+            "label": "document",
+            "type": "tool",
+            "layer": 3
+        },
+        {
+            "id": "generation",
+            "label": "generation",
+            "type": "tool",
+            "layer": 3
+        },
+        {
+            "id": "evaluation",
+            "label": "evaluation",
+            "type": "tool",
+            "layer": 3
+        },
+        {
+            "id": "improvement",
+            "label": "improvement",
+            "type": "tool",
+            "layer": 3
+        },
+        {
+            "id": "file_writer",
+            "label": "file_writer",
+            "type": "tool",
+            "layer": 3
+        },
+        {
+            "id": "monitoring",
+            "label": "monitoring",
+            "type": "tool",
+            "layer": 4
+        },
+        {
+            "id": "gemini",
+            "label": "Gemini API",
+            "type": "external",
+            "layer": 4
+        },
+        {
+            "id": "manim_cli",
+            "label": "Manim CLI",
+            "type": "external",
+            "layer": 4
+        },
+        {
+            "id": "ffmpeg",
+            "label": "FFmpeg",
+            "type": "external",
+            "layer": 4
+        },
+        {
+            "id": "wrapper",
+            "label": "manim_api_wrapper",
+            "type": "compatibility",
+            "layer": 4
+        },
+        {
+            "id": "prompt",
+            "label": "prompt.txt",
+            "type": "external",
+            "layer": 5
+        },
+        {
+            "id": "media",
+            "label": "generated_media",
+            "type": "output",
+            "layer": 5
+        }
+    ],
+    "edges": [
+        {
+            "from": "run_agent",
+            "to": "agent_workflow"
+        },
+        {
+            "from": "agent_workflow",
+            "to": "document"
+        },
+        {
+            "from": "agent_workflow",
+            "to": "generation"
+        },
+        {
+            "from": "agent_workflow",
+            "to": "evaluation"
+        },
+        {
+            "from": "agent_workflow",
+            "to": "improvement"
+        },
+        {
+            "from": "agent_workflow",
+            "to": "file_writer"
+        },
+        {
+            "from": "generation",
+            "to": "monitoring"
+        },
+        {
+            "from": "generation",
+            "to": "gemini"
+        },
+        {
+            "from": "monitoring",
+            "to": "prompt"
+        },
+        {
+            "from": "evaluation",
+            "to": "manim_cli"
+        },
+        {
+            "from": "file_writer",
+            "to": "ffmpeg"
+        },
+        {
+            "from": "file_writer",
+            "to": "wrapper"
+        },
+        {
+            "from": "wrapper",
+            "to": "media"
+        }
+    ]
+}
