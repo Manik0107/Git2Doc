@@ -307,7 +307,7 @@ One example is in traction transformers used for electric multiple unit and high
 
 At much higher frequencies the transformer core size required drops dramatically: a physically small transformer can handle power levels that would require a massive iron core at mains frequency. The development of switching power semiconductor devices made switch-mode power supplies viable, to generate a high frequency, then change the voltage level with a small transformer.
 
-Transformers for higher frequency applications such as SMPS typically use core materials with much lower hysteresis and eddy-current losses than those for 50/60 Hz. Primary examples are iron-powder and ferrite cores. The lower frequency-dependant losses of these cores often is at the expense of flux density at saturation. For instance, ferrite saturation occurs at a substantially lower flux density than laminated iron.
+Transformers for higher frequency applications such as SMPS typically use core materials with much lower hysteresis and eddy-current losses than those for 50/60 Hz. Primary examples are iron-powder and ferrite cores. The lower frequency-dependent losses of these cores often are at the expense of flux density at saturation. For instance, ferrite saturation occurs at a substantially lower flux density than laminated iron.
 
 Large power transformers are vulnerable to insulation failure due to transient voltages with high-frequency components, such as caused in switching or by lightning.
 
