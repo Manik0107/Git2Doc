@@ -17,44 +17,7 @@ Code2Doc is an intelligent documentation generator that transforms GitHub reposi
 
 ---
 
-## 🚀 Quick Start
-
-### Prerequisites
-
-- Python 3.8+
-- GitHub Personal Access Token
-- Google Gemini API Key
-
-### Installation
-
-1. **Clone the repository**
-   ```bash
-   git clone https://github.com/Manik0107/Code2Doc.git
-   cd Code2Doc
-   ```
-
-2. **Install dependencies**
-   ```bash
-   pip install -r requirements.txt
-   ```
-   
-   Or using `uv` (recommended):
-   ```bash
-   uv pip install -r requirements.txt
-   ```
-
-3. **Set up environment variables**
-   
-   Create a `.env` file in the project root:
-   ```env
-   GITHUB_ACCESS_TOKEN=your_github_token_here
-   GEMINI_API_KEY=your_gemini_api_key_here
-   GOOGLE_API_KEY=your_google_api_key_here
-   ```
-
----
-
-## 📖 Usage
+##  Usage
 
 ### Basic Example
 
@@ -135,23 +98,6 @@ The generated PDF includes:
 
 ---
 
-## 🔑 API Keys Setup
-
-### GitHub Personal Access Token
-
-1. Go to [GitHub Settings > Developer Settings > Personal Access Tokens](https://github.com/settings/tokens)
-2. Click "Generate new token (classic)"
-3. Select scopes: `repo`, `read:org`, `read:user`
-4. Copy the token and add to `.env`
-
-### Google Gemini API Key
-
-1. Visit [Google AI Studio](https://makersuite.google.com/app/apikey)
-2. Create a new API key
-3. Copy the key and add to `.env`
-
----
-
 ## 🎯 Use Cases
 
 - **Project Documentation**: Automatically generate README and docs for your projects
@@ -159,18 +105,6 @@ The generated PDF includes:
 - **Onboarding**: Help new team members understand project structure
 - **Code Review**: Get AI-powered insights into code functionality
 - **Legacy Code**: Document undocumented legacy systems
-
----
-
-## 🤝 Contributing
-
-Contributions are welcome! Please feel free to submit a Pull Request.
-
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
 
 ---
 
