@@ -95,6 +95,23 @@ uv run main.py
 
 ---
 
+## 📄 Sample Output
+
+Code2Doc generates professional documentation in both text and PDF formats:
+
+- **[View Sample Documentation PDF](./simple_document.pdf)** - Click to view the generated documentation
+
+The generated PDF includes:
+- ✨ Professional formatting with proper typography
+- 📑 Clear heading hierarchy (19.5pt main, 12pt sub, 11.5pt tertiary)
+- 🔢 Numbered lists for better organization
+- 📝 Comprehensive code analysis with Introduction and Conclusion
+- 🎯 Bold formatting for important concepts
+
+> **Note**: Click the PDF link above to view it directly in GitHub's built-in PDF viewer with full scrolling support.
+
+---
+
 ## 🛠️ How It Works
 
 1. **Repository Connection**: Connects to GitHub using authenticated API access
