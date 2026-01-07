@@ -84,6 +84,61 @@ def generate_pdf(input_file="content.txt", output_file="simple_document.pdf"):
         
         return segments
 
+    # Function to check if line is an image
+    def is_image_line(line):
+        """Check if line contains markdown image syntax: ![alt text](path)"""
+        return bool(re.match(r'!\[.*?\]\(.+?\)', line.strip()))
+    
+    # Function to extract image info from markdown
+    def extract_image_info(line):
+        """Extract alt text and path from markdown image"""
+        match = re.match(r'!\[(.*?)\]\((.+?)\)', line.strip())
+        if match:
+            return match.group(1), match.group(2)  # alt_text, image_path
+        return None, None
+    
+    # Function to insert image into PDF
+    def insert_image(page, doc, x_pos, y, image_path, max_width):
+        """Insert an image into the PDF and return updated page, doc, and y position"""
+        try:
+            import os
+            if not os.path.exists(image_path):
+                # Try relative path from the current directory
+                if not os.path.isabs(image_path):
+                    image_path = os.path.join(os.getcwd(), image_path)
+                
+                if not os.path.exists(image_path):
+                    print(f"⚠️  Warning: Image not found: {image_path}")
+                    return page, doc, y
+            
+            # Open the image to get its dimensions
+            from PIL import Image
+            img = Image.open(image_path)
+            img_width, img_height = img.size
+            
+            # Calculate scaling to fit within page width
+            available_width = max_width
+            scale = min(1.0, available_width / img_width)
+            
+            # Also check if height would exceed remaining page space
+            scaled_height = img_height * scale
+            if y + scaled_height > height - margin:
+                # Need a new page
+                page = doc.new_page(width=width, height=height)
+                y = margin
+            
+            # Insert the image
+            img_rect = fitz.Rect(x_pos, y, x_pos + (img_width * scale), y + scaled_height)
+            page.insert_image(img_rect, filename=image_path)
+            
+            # Move y position down
+            y += scaled_height + 10  # Add some spacing after image
+            
+            return page, doc, y
+        except Exception as e:
+            print(f"⚠️  Warning: Failed to insert image {image_path}: {e}")
+            return page, doc, y
+
     # Function to insert text with proper formatting
     def insert_formatted_line(page, doc, x_pos, y, line, heading_level=0, indent_level=0, list_number=None, preserve_number=False):
         """Insert a formatted line and return updated page, doc, and y position"""
@@ -129,9 +184,32 @@ def generate_pdf(input_file="content.txt", output_file="simple_document.pdf"):
         
         max_width = width - margin - (current_x - base_indent)
         
-        # For headings, insert as single line
+        # For headings, wrap to multiple lines if needed
         if heading_level > 0:
-            page.insert_text((current_x, y), text_content, fontsize=fontsize, fontname=fontname)
+            words = text_content.split(" ")
+            line_text = ""
+            
+            for i, word in enumerate(words):
+                test_text = line_text + (" " if line_text else "") + word
+                text_width = fitz.get_text_length(test_text, fontsize=fontsize, fontname=fontname)
+                
+                if text_width > max_width and line_text:
+                    # Insert current line
+                    page.insert_text((current_x, y), line_text, fontsize=fontsize, fontname=fontname)
+                    y += line_height
+                    line_text = word
+                    
+                    # Check if we need a new page
+                    if y > height - margin:
+                        page = doc.new_page(width=width, height=height)
+                        y = margin
+                else:
+                    line_text = test_text
+            
+            # Insert remaining text
+            if line_text:
+                page.insert_text((current_x, y), line_text, fontsize=fontsize, fontname=fontname)
+            
             return page, doc, y + line_height
         
         # For body text, parse bold segments and wrap
@@ -167,8 +245,48 @@ def generate_pdf(input_file="content.txt", output_file="simple_document.pdf"):
     # Process lines
     lines = text.splitlines()
     current_list_level = 0
+    skip_next_line = False  # Flag to skip image caption lines
 
-    for line in lines:
+    for i, line in enumerate(lines):
+        # Skip if this line should be skipped (e.g., image caption)
+        if skip_next_line:
+            skip_next_line = False
+            continue
+        
+        # Check if this is an image line
+        if is_image_line(line):
+            alt_text, image_path = extract_image_info(line)
+            
+            # Add some spacing before image
+            y += body_fontsize * 0.5
+            
+            # Insert the image
+            max_image_width = width - (2 * margin)
+            page, doc, y = insert_image(page, doc, x, y, image_path, max_image_width)
+            
+            # Check if next line is a caption (starts with * or italic)
+            if i + 1 < len(lines):
+                next_line = lines[i + 1].strip()
+                if next_line.startswith('*') and not next_line.startswith('**'):
+                    # This is likely a caption, insert it in italics
+                    caption_text = next_line.strip('*').strip()
+                    
+                    # Check if we need a new page
+                    if y > height - margin - 30:
+                        page = doc.new_page(width=width, height=height)
+                        y = margin
+                    
+                    # Insert caption in center, italics
+                    caption_width = fitz.get_text_length(caption_text, fontsize=body_fontsize, fontname="helv")
+                    caption_x = (width - caption_width) / 2
+                    page.insert_text((caption_x, y), caption_text, fontsize=body_fontsize, fontname="heit")
+                    y += body_fontsize * 1.5
+                    skip_next_line = True
+            
+            # Add spacing after image
+            y += body_fontsize * 0.5
+            continue
+        
         # Skip empty lines but add spacing
         if not line.strip():
             y += body_fontsize * 0.8

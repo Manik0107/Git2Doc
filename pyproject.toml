@@ -1,0 +1,15 @@
+[project]
+name = "code2doc"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "agno>=2.3.12",
+    "crawl4ai>=0.7.8",
+    "google-genai>=1.55.0",
+    "graphviz>=0.21",
+    "pygithub>=2.8.1",
+    "pymupdf>=1.26.7",
+    "requests>=2.32.5",
+]

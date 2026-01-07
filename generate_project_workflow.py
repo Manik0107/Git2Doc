@@ -1,0 +1,125 @@
+#!/usr/bin/env python3
+"""
+Helper script to generate workflow diagrams from project_workflow.json
+This is a modified version of workflow.py that uses project_workflow.json instead of workflow.json
+"""
+
+import json
+import os
+from graphviz import Digraph
+from collections import defaultdict
+
+# ---------- 0. Graphviz Path Handling (Removes need for batch file) ----------
+# Check if 'dot' is likely missing from PATH and try to add it programmatically
+if "Graphviz" not in os.environ["PATH"]:
+    possible_paths = [
+        r"C:\Program Files\Graphviz\bin",
+        r"C:\Program Files (x86)\Graphviz\bin"
+    ]
+    for p in possible_paths:
+        if os.path.exists(p):
+            os.environ["PATH"] += ";" + p
+            break
+
+# ---------- 1. Load structured input ----------
+input_file = "project_workflow.json"
+
+if not os.path.exists(input_file):
+    print(f"❌ Error: {input_file} not found!")
+    print("Please run main.py first to generate the workflow JSON.")
+    exit(1)
+
+with open(input_file, "r", encoding="utf-8") as f:
+    data = json.load(f)
+
+meta = data["meta"]
+node_types = data["node_types"]
+nodes = data["nodes"]
+edges = data["edges"]
+
+# ---------- 2. Create graph ----------
+# Calculate dynamic size based on number of nodes and layers
+num_nodes = len(nodes)
+num_layers = len(set(node["layer"] for node in nodes))
+
+# Dynamic height calculation: base height + additional height per layer
+base_height = 8
+height_per_layer = 3
+calculated_height = base_height + (num_layers * height_per_layer)
+
+# Dynamic width calculation: base width + additional width based on nodes
+base_width = 12
+width_factor = max(1, num_nodes / 10)
+calculated_width = base_width + (width_factor * 2)
+
+dot = Digraph(
+    name="ProjectWorkflow",
+    format="png"
+)
+
+# Set global graph attributes with enhanced quality and dynamic sizing
+dot.attr(
+    rankdir=meta.get("layout", "LR"),  # Left-to-right layout by default
+    labelloc="t",
+    fontsize="24",  # Larger title font
+    fontname="Arial Bold",
+    label=meta.get("title", "Project Workflow Diagram"),
+    compound="true",
+    # High-quality rendering settings
+    dpi="300",  # High DPI for crisp, clear output
+    size=f"{calculated_width},{calculated_height}!",  # Dynamic size with ! to force it
+    ratio="auto",
+    # Better spacing for cleaner appearance
+    nodesep="2.0",  # Increased horizontal spacing between nodes
+    ranksep="2.5",  # Increased vertical spacing between ranks/layers
+    # Visual enhancements
+    bgcolor="white",
+    splines="curved",  # Curved edges for smoother, more professional look
+    concentrate="false"  # Don't merge edges
+)
+
+# ---------- 3. Group nodes by layer ----------
+layers = defaultdict(list)
+for node in nodes:
+    layers[node["layer"]].append(node)
+
+# ---------- 4. Draw nodes layer by layer ----------
+for layer in sorted(layers.keys()):
+    with dot.subgraph(name=f"cluster_layer_{layer}") as c:
+        # Crucial: Set label to empty string to prevent inheriting the main title
+        # and ensure rank="same" keeps them aligned horizontally
+        c.attr(rank="same", label="", style="invis") 
+
+        for node in layers[layer]:
+            node_style = node_types.get(node["type"], {})
+            c.node(
+                node["id"],
+                node["label"],
+                style="filled,rounded",
+                shape=node_style.get("shape", "box"),
+                fillcolor=node_style.get("color", "lightgray"),
+                fontname="Arial Bold",  # Bold font for better visibility
+                fontsize="16",  # Larger font for better readability
+                fontcolor="white" if node["type"] in ["external", "output"] else "black",
+                penwidth="2.5",  # Slightly thicker borders
+                margin="0.5,0.3",  # More padding inside nodes
+                height="0.8",  # Taller nodes for better proportions
+                width="2.5"  # Wider nodes for better readability
+            )
+
+# ---------- 5. Draw edges ----------
+node_ids = {n["id"] for n in nodes}
+
+for edge in edges:
+    src = edge["from"]
+    dst = edge["to"]
+
+    if src in node_ids and dst in node_ids:
+        dot.edge(src, dst)
+
+# ---------- 6. Render ----------
+try:
+    output_path = dot.render("project_workflow_diagram")
+    print(f"✅ Successfully generated: {output_path}")
+except Exception as e:
+    print(f"❌ Error generating diagram: {e}")

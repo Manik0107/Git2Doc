@@ -1,0 +1,4 @@
+crawl4ai
+agno
+google-genai
+python-dotenv

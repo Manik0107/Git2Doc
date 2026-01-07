@@ -1,124 +1,312 @@
-# 📚 Code2Doc
+# 📚 Code2Doc: Automated Repository Documentation Generator
 
-**Automated Git Repository to Documentation Converter**
+> **Transform any GitHub repository into comprehensive technical documentation with AI-powered workflow diagrams — automatically.**
 
-Code2Doc is an intelligent documentation generator that transforms GitHub repositories into comprehensive, structured documentation using AI-powered analysis. It leverages advanced language models to understand code structure, extract key information, and generate human-readable documentation automatically.
-
----
-
-## 🌟 Features
-
-- **🤖 AI-Powered Analysis**: Uses Google's Gemini 2.5 Flash model for intelligent code understanding
-- **📂 Repository Scanning**: Automatically analyzes entire GitHub repositories
-- **🔍 Smart Extraction**: Identifies functions, classes, dependencies, and code relationships
-- **📝 Comprehensive Documentation**: Generates detailed explanations of code functionality
-- **🔐 Secure Authentication**: GitHub token-based access for private repositories
-- **⚡ Fast Processing**: Efficient analysis powered by the Agno framework
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
+[![Python](https://img.shields.io/badge/Python-3.8%2B-blue.svg)](https://www.python.org/)
+[![AI Powered](https://img.shields.io/badge/AI-Gemini%202.0-orange.svg)](https://deepmind.google/technologies/gemini/)
 
 ---
 
-##  Usage
+## 🎯 Overview
 
-### Basic Example
+**Code2Doc** is an intelligent documentation generator that converts GitHub repositories into professional, structured technical documentation using AI-powered analysis. It automatically:
 
-```python
-import os
-from dotenv import load_dotenv
-from agno.agent import Agent
-from agno.models.google import Gemini
-from agno.tools.github import GithubTools
+- 🤖 **Analyzes code** using Google's Gemini 2.0 Flash model
+- 📊 **Generates workflow diagrams** showing project architecture
+- 📝 **Creates comprehensive documentation** with proper formatting
+- 📕 **Produces professional PDFs** with embedded diagrams
+- 🎨 **Applies smart formatting** with headings, lists, and bold text
 
-# Load environment variables
-load_dotenv()
+![Documentation Preview](assets/code2doc_documentation_preview.png)
 
-# Initialize the agent
-agent = Agent(
-    model=Gemini("gemini-2.5-flash"),
-    instructions=[
-        "Use your tools to answer questions about the repo: https://github.com/username/repo",
-        "Do not create any issues or pull requests unless explicitly asked to do so",
-    ],
-    tools=[GithubTools(access_token=os.getenv("GITHUB_ACCESS_TOKEN"))],
-)
+---
 
-# Query the repository
-response = agent.run("Explain what this repository does")
-print(response.content)
-```
+## ✨ Key Features
 
-### Running the Main Script
+### 🔍 Intelligent Repository Analysis
+- Scans entire GitHub repositories using **GithubTools**
+- Identifies files, modules, functions, classes, and dependencies
+- Understands code structure and relationships
+- Extracts key technical information
+
+### 📊 Automatic Workflow Diagram Generation
+- Creates **high-level architectural diagrams** (5-10 nodes)
+- Visualizes project workflow and data flow
+- Renders professional diagrams at **300 DPI**
+- Embeds diagrams directly into documentation
+
+### 📝 Comprehensive Documentation
+- Generates **Introduction** and **Conclusion** sections
+- Documents **all functions, classes, and methods**
+- Explains **dependencies, integrations, and workflows**
+- Uses **bold formatting** for important concepts
+- Properly structures content with clear headings
+
+### 📕 Professional PDF Output
+- Creates **publication-ready PDFs**
+- Embeds workflow diagrams at optimal locations
+- Supports **custom typography** (19.5pt headings, 11.5pt body)
+- Includes **numbered lists** and proper spacing
+- Handles **image embedding** and captions
+
+---
+
+## 🚀 Quick Start
+
+### Prerequisites
+
+- Python 3.8 or higher
+- GitHub Personal Access Token ([Create one here](https://github.com/settings/tokens))
+- OpenRouter API Key for Gemini 2.0 ([Get one here](https://openrouter.ai/))
+
+### Installation
 
 ```bash
-# Using Python
-python main.py
+# Clone the repository
+git clone https://github.com/Manik0107/Code2Doc.git
+cd Code2Doc
 
-# Using uv (recommended)
+# Install dependencies using uv (recommended)
+pip install uv
+uv sync
+
+# Or install using pip
+pip install -r requirements.txt
+```
+
+### Configuration
+
+Create a `.env` file in the project root:
+
+```env
+# GitHub Authentication
+GITHUB_ACCESS_TOKEN=your_github_token_here
+
+# OpenRouter API for Gemini
+OPENROUTER_API_KEY=your_openrouter_api_key_here
+```
+
+### Usage
+
+```bash
+# Run the documentation generator
 uv run main.py
+
+# Or using Python directly
+python main.py
+```
+
+**You'll be prompted for:**
+1. **GitHub repository URL** (e.g., `https://github.com/username/repo`)
+2. **Your question/request** (e.g., "Generate comprehensive documentation")
+
+---
+
+## 📊 Workflow Architecture
+
+Code2Doc follows this automated workflow:
+
+![Code2Doc Workflow](assets/workflow_diagram.png)
+
+**Process Flow:**
+1. **main.py** — Entry point, handles user input
+2. **Repository Analysis** — Analyzes GitHub repository structure
+3. **GitHub API** — Fetches repository data
+4. **Gemini AI Model** — Interprets code and generates documentation
+5. **Documentation Generator** — Creates structured content
+6. **Workflow Generator** — Produces workflow diagram JSON
+7. **PDF Export** — Generates final PDF with embedded diagram
+8. **Technical Documentation** — Final output files
+
+---
+
+## 📂 Project Structure
+
+```
+Code2Doc/
+├── main.py                         # Main orchestration script
+├── doc_creation.py                 # PDF generation with image embedding
+├── generate_project_workflow.py   # Workflow diagram renderer
+├── requirements.txt                # Python dependencies
+├── pyproject.toml                  # Project configuration
+├── .env                            # Environment variables (create this)
+├── assets/                         # Static assets
+│   ├── workflow_diagram.png        # Sample workflow diagram
+│   └── code2doc_documentation_preview.png
+└── examples/                       # Sample outputs
+    └── sample_output.pdf           # Example generated documentation
 ```
 
 ---
 
-## 📄 Sample Output
+## 🎨 Sample Output
 
-Code2Doc generates professional documentation in both text and PDF formats:
+### Generated Files
 
-- **[View Sample Documentation PDF](./simple_document.pdf)** - Click to view the generated documentation
+After running Code2Doc, you'll get:
 
-The generated PDF includes:
-- ✨ Professional formatting with proper typography
-- 📑 Clear heading hierarchy (19.5pt main, 12pt sub, 11.5pt tertiary)
-- 🔢 Numbered lists for better organization
-- 📝 Comprehensive code analysis with Introduction and Conclusion
-- 🎯 Bold formatting for important concepts
+| File | Description |
+|------|-------------|
+| 📄 `content.txt` | Markdown-formatted documentation with diagram references |
+| 📕 `technical_documentation.pdf` | **Professional PDF with embedded workflow diagram** |
+| 🔄 `project_workflow.json` | Structured workflow data (nodes and edges) |
+| 🖼️ `project_workflow_diagram.png` | High-resolution workflow diagram (300 DPI) |
 
-> **Note**: Click the PDF link above to view it directly in GitHub's built-in PDF viewer with full scrolling support.
+### Example Output
+
+**[View Sample Documentation PDF →](examples/sample_output.pdf)**
+
+The generated documentation includes:
+- ✅ **Introduction** — Project overview and context
+- ✅ **Workflow Diagram** — Visual architecture (automatically inserted)
+- ✅ **Architecture** — Component breakdown
+- ✅ **Implementation Details** — Functions, classes, and methods
+- ✅ **Dependencies** — External integrations
+- ✅ **Conclusion** — Key features and takeaways
 
 ---
 
 ## 🛠️ How It Works
 
-1. **Repository Connection**: Connects to GitHub using authenticated API access
-2. **Code Analysis**: Scans repository structure, files, and code patterns
-3. **AI Processing**: Uses Gemini AI to understand code context and functionality
-4. **Documentation Generation**: Creates structured documentation with:
-   - File descriptions
-   - Function/class explanations
-   - Code relationships and dependencies
-   - Usage examples
-   - Technical insights
+### 1. Repository Analysis
 
----
+```python
+# Connects to GitHub using authenticated API
+agent = Agent(
+    model=OpenRouter(id="google/gemini-2.0-flash-001"),
+    tools=[GithubTools(access_token=os.getenv("GITHUB_ACCESS_TOKEN"))]
+)
 
-## 📦 Dependencies
+# Analyzes repository structure, files, and dependencies
+response = agent.run("Analyze the repository structure...")
+```
 
-- **agno**: AI agent framework for orchestrating documentation generation
-- **google-genai**: Google Gemini AI integration
-- **python-dotenv**: Environment variable management
-- **crawl4ai**: Web crawling capabilities (optional)
+### 2. Documentation Generation
+
+```python
+# AI-powered documentation specialist
+documenter = Agent(
+    name="DocumentationSpecialist",
+    instructions="Generate comprehensive technical documentation..."
+)
+
+# Creates structured documentation with Introduction and Conclusion
+doc_response = documenter.run("Generate documentation...")
+```
+
+### 3. Workflow Diagram Creation
+
+```python
+# Generates simplified workflow JSON (5-10 nodes)
+workflow_agent = Agent(
+    name="WorkflowArchitect",
+    instructions="Generate high-level workflow diagram..."
+)
+
+# Renders diagram using Graphviz
+workflow_json = workflow_agent.run("Create workflow diagram...")
+```
+
+### 4. PDF Generation with Embedded Diagram
+
+```python
+# Inserts workflow diagram into documentation
+doc_content = doc_content.replace(
+    "[WORKFLOW_DIAGRAM_PLACEHOLDER]", 
+    "![Workflow Diagram](path/to/diagram.png)"
+)
+
+# Generates PDF with embedded images
+generate_pdf(input_file="content.txt", output_file="technical_documentation.pdf")
+```
 
 ---
 
 ## 🎯 Use Cases
 
-- **Project Documentation**: Automatically generate README and docs for your projects
-- **Code Understanding**: Quickly understand unfamiliar codebases
-- **Onboarding**: Help new team members understand project structure
-- **Code Review**: Get AI-powered insights into code functionality
-- **Legacy Code**: Document undocumented legacy systems
+- 📖 **Project Documentation** — Auto-generate README and technical docs
+- 🧑‍💻 **Code Understanding** — Quickly understand unfamiliar codebases
+- 🎓 **Onboarding** — Help new team members learn project structure
+- 🔍 **Code Review** — Get AI-powered insights into functionality
+- 🏛️ **Legacy Code** — Document undocumented systems
+- 📊 **Architecture Diagrams** — Visualize system workflows automatically
+
+---
+
+## 📦 Dependencies
+
+| Package | Purpose |
+|---------|---------|
+| **agno** | AI agent framework for orchestration |
+| **google-genai** | Google Gemini AI integration |
+| **python-dotenv** | Environment variable management |
+| **PyMuPDF (fitz)** | PDF generation and manipulation |
+| **Pillow** | Image processing for PDF embedding |
+| **graphviz** | Workflow diagram rendering |
+
+Install all dependencies:
+
+```bash
+uv sync  # or pip install -r requirements.txt
+```
+
+---
+
+## 🔧 Advanced Configuration
+
+### Custom Output Names
+
+Edit `main.py` to customize output filenames:
+
+```python
+# Change default output names
+output_file = "my_custom_documentation.txt"
+pdf_output = "my_custom_documentation.pdf"
+```
+
+### Workflow Diagram Customization
+
+Edit `generate_project_workflow.py` to adjust:
+- Diagram size and DPI
+- Node colors and shapes
+- Layout direction (LR/TB)
+- Spacing and fonts
+
+### Documentation Formatting
+
+Edit `doc_creation.py` to customize:
+- Font sizes (headings, body text)
+- Page margins and spacing
+- List formatting
+- Image scaling
 
 ---
 
 ## 📄 License
 
-This project is licensed under the Apache License 2.0 - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the **Apache License 2.0** - see the [LICENSE](LICENSE) file for details.
 
 ---
 
 ## 🙏 Acknowledgments
 
-- **Agno Framework**: For providing the AI agent infrastructure
-- **Google Gemini**: For powerful language model capabilities
-- **GitHub API**: For repository access and analysis
+- **[Agno Framework](https://github.com/agno-agi/agno)** — AI agent infrastructure
+- **[Google Gemini](https://deepmind.google/technologies/gemini/)** — Advanced language models
+- **[GitHub API](https://docs.github.com/en/rest)** — Repository access and analysis
+- **[Graphviz](https://graphviz.org/)** — Professional diagram rendering
+
+---
+
+## 🤝 Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+1. Fork the Project
+2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the Branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
 
 ---
 
@@ -133,16 +321,25 @@ This project is licensed under the Apache License 2.0 - see the [LICENSE](LICENS
 
 ## 🗺️ Roadmap
 
-- [ ] Support for multiple output formats (Markdown, HTML, PDF)
-- [ ] Batch processing for multiple repositories
-- [ ] Custom documentation templates
-- [ ] Integration with popular documentation platforms
-- [ ] Support for additional programming languages
-- [ ] Interactive documentation generation UI
-- [ ] Code quality metrics and analysis
-- [ ] Automated documentation updates on commits
+- [x] ✅ AI-powered repository analysis
+- [x] ✅ Automatic workflow diagram generation
+- [x] ✅ PDF generation with embedded diagrams
+- [x] ✅ Professional formatting and typography
+- [ ] 🔄 Multiple output formats (Markdown, HTML)
+- [ ] 🔄 Batch processing for multiple repositories
+- [ ] 🔄 Custom documentation templates
+- [ ] 🔄 Integration with documentation platforms (Read the Docs, GitBook)
+- [ ] 🔄 Interactive web UI
+- [ ] 🔄 Code quality metrics and analysis
+- [ ] 🔄 Automated documentation updates on commits
+- [ ] 🔄 Multi-language support (currently Python-focused)
 
 ---
 
+<div align="center">
 
+**Made with ❤️ using AI-powered automation**
 
+⭐ **Star this repository if you find it helpful!** ⭐
+
+</div>

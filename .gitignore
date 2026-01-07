@@ -206,5 +206,20 @@ marimo/_static/
 marimo/_lsp/
 __marimo__/
 
-# Project-specific
-Code2Doc/
+# Project-specific generated files
+# Ignore generated documentation outputs (keep examples/ directory)
+*.pdf
+!examples/*.pdf
+content.txt
+project_workflow.json
+project_workflow_diagram.png
+project_workflow_diagram
+
+# Ignore debug and test files
+workflow_debug.txt
+url.txt
+test_output.pdf
+
+# Ignore old workflow files
+workflow.json
+workflow.py
