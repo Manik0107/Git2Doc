@@ -52,56 +52,7 @@
 
 ---
 
-## 🚀 Quick Start
 
-### Prerequisites
-
-- Python 3.8 or higher
-- GitHub Personal Access Token ([Create one here](https://github.com/settings/tokens))
-- OpenRouter API Key for Gemini 2.0 ([Get one here](https://openrouter.ai/))
-
-### Installation
-
-```bash
-# Clone the repository
-git clone https://github.com/Manik0107/Code2Doc.git
-cd Code2Doc
-
-# Install dependencies using uv (recommended)
-pip install uv
-uv sync
-
-# Or install using pip
-pip install -r requirements.txt
-```
-
-### Configuration
-
-Create a `.env` file in the project root:
-
-```env
-# GitHub Authentication
-GITHUB_ACCESS_TOKEN=your_github_token_here
-
-# OpenRouter API for Gemini
-OPENROUTER_API_KEY=your_openrouter_api_key_here
-```
-
-### Usage
-
-```bash
-# Run the documentation generator
-uv run main.py
-
-# Or using Python directly
-python main.py
-```
-
-**You'll be prompted for:**
-1. **GitHub repository URL** (e.g., `https://github.com/username/repo`)
-2. **Your question/request** (e.g., "Generate comprehensive documentation")
-
----
 
 ## 📊 Workflow Architecture
 
@@ -167,61 +118,7 @@ The generated documentation includes:
 
 ---
 
-## 🛠️ How It Works
 
-### 1. Repository Analysis
-
-```python
-# Connects to GitHub using authenticated API
-agent = Agent(
-    model=OpenRouter(id="google/gemini-2.0-flash-001"),
-    tools=[GithubTools(access_token=os.getenv("GITHUB_ACCESS_TOKEN"))]
-)
-
-# Analyzes repository structure, files, and dependencies
-response = agent.run("Analyze the repository structure...")
-```
-
-### 2. Documentation Generation
-
-```python
-# AI-powered documentation specialist
-documenter = Agent(
-    name="DocumentationSpecialist",
-    instructions="Generate comprehensive technical documentation..."
-)
-
-# Creates structured documentation with Introduction and Conclusion
-doc_response = documenter.run("Generate documentation...")
-```
-
-### 3. Workflow Diagram Creation
-
-```python
-# Generates simplified workflow JSON (5-10 nodes)
-workflow_agent = Agent(
-    name="WorkflowArchitect",
-    instructions="Generate high-level workflow diagram..."
-)
-
-# Renders diagram using Graphviz
-workflow_json = workflow_agent.run("Create workflow diagram...")
-```
-
-### 4. PDF Generation with Embedded Diagram
-
-```python
-# Inserts workflow diagram into documentation
-doc_content = doc_content.replace(
-    "[WORKFLOW_DIAGRAM_PLACEHOLDER]", 
-    "![Workflow Diagram](path/to/diagram.png)"
-)
-
-# Generates PDF with embedded images
-generate_pdf(input_file="content.txt", output_file="technical_documentation.pdf")
-```
-
----
 
 ## 🎯 Use Cases
 
@@ -253,35 +150,7 @@ uv sync  # or pip install -r requirements.txt
 
 ---
 
-## 🔧 Advanced Configuration
 
-### Custom Output Names
-
-Edit `main.py` to customize output filenames:
-
-```python
-# Change default output names
-output_file = "my_custom_documentation.txt"
-pdf_output = "my_custom_documentation.pdf"
-```
-
-### Workflow Diagram Customization
-
-Edit `generate_project_workflow.py` to adjust:
-- Diagram size and DPI
-- Node colors and shapes
-- Layout direction (LR/TB)
-- Spacing and fonts
-
-### Documentation Formatting
-
-Edit `doc_creation.py` to customize:
-- Font sizes (headings, body text)
-- Page margins and spacing
-- List formatting
-- Image scaling
-
----
 
 ## 📄 License
 
@@ -289,14 +158,7 @@ This project is licensed under the **Apache License 2.0** - see the [LICENSE](LI
 
 ---
 
-## 🙏 Acknowledgments
 
-- **[Agno Framework](https://github.com/agno-agi/agno)** — AI agent infrastructure
-- **[Google Gemini](https://deepmind.google/technologies/gemini/)** — Advanced language models
-- **[GitHub API](https://docs.github.com/en/rest)** — Repository access and analysis
-- **[Graphviz](https://graphviz.org/)** — Professional diagram rendering
-
----
 
 ## 🤝 Contributing
 
@@ -307,15 +169,6 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
 4. Push to the Branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
-
----
-
-## 📧 Contact
-
-**Manik Manavenddram**
-
-- GitHub: [@Manik0107](https://github.com/Manik0107)
-- Project Link: [https://github.com/Manik0107/Code2Doc](https://github.com/Manik0107/Code2Doc)
 
 ---
 
@@ -338,7 +191,6 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 
 <div align="center">
 
-**Made with ❤️ using AI-powered automation**
 
 ⭐ **Star this repository if you find it helpful!** ⭐
 
