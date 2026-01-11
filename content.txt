@@ -1,10 +1,9 @@
-# Code2Doc: Automated Documentation Generation Tool
+# Code2Doc: Automated Technical Documentation Generator
 
 ## Introduction
+Code2Doc is a Python-based tool designed to automate the creation of comprehensive technical documentation for software projects hosted on GitHub. The tool analyzes a given repository, extracts relevant information about its structure, components, and functionality, utilizes AI (Gemini 2.0) via the `agno` framework, and generates a well-structured Markdown document. This document is then converted into a polished PDF file that includes an embedded workflow diagram illustrating the project's architecture. The primary motivation behind Code2Doc is to reduce the manual effort involved in documenting software projects, making it easier for developers to understand, maintain, and onboard new team members.
 
-The Code2Doc project is designed to automate the generation of comprehensive technical documentation from source code repositories. It leverages AI-driven analysis, specifically Google's Gemini 2.0, to extract key information about the project, including its architecture, components, dependencies, and workflows. The tool aims to reduce the manual effort required in creating and maintaining up-to-date documentation, ensuring that it remains consistent with the codebase. The generated documentation is structured in a human-readable format (Markdown), and can be exported to professional PDF documents with embedded workflow diagrams.
-
-This documentation is intended for software developers, architects, technical writers, and anyone seeking to understand the inner workings of a software project. It provides a detailed overview of the system's design, implementation, and usage, serving as a valuable resource for onboarding new team members, understanding legacy code, or evaluating the technical aspects of a project. The expected use cases include generating documentation for internal projects, open-source libraries, and enterprise applications, streamlining the documentation process and improving overall code maintainability.
+This documentation is intended for software developers, architects, technical writers, and anyone involved in the development or maintenance of software projects. It provides a detailed explanation of Code2Doc's architecture, components, and usage, enabling users to understand how the tool works and how to leverage it for their own projects. The key use cases include: generating documentation for open-source projects, creating internal documentation for enterprise applications, and producing technical reports for academic research.
 
 
 ## Workflow Diagram
@@ -15,150 +14,93 @@ This documentation is intended for software developers, architects, technical wr
 
 
 ## Overview
-
-Code2Doc automates the creation of detailed technical documentation from source code repositories. It employs a multi-stage process, beginning with repository analysis, followed by AI-driven content generation, workflow diagram creation, and finally, PDF document assembly. The core components include a main orchestration script (`main.py`), a PDF generation module (`doc_creation.py`), and a workflow diagram generator (`generate_project_workflow.py`). The tool leverages external libraries such as `agno` for AI agent orchestration, `google-genai` for interacting with the Gemini AI model, and `PyMuPDF` for PDF manipulation.
-
-The project aims to provide a streamlined solution for software documentation, reducing the time and effort required to produce high-quality technical specifications. It caters to developers and technical stakeholders who need to quickly understand and document codebases. The generated documentation includes sections on project overview, architecture, implementation details, dependencies, and usage instructions.
+Code2Doc automates the creation of technical documentation by analyzing a GitHub repository, identifying key components and dependencies, and generating a Markdown-based documentation file that is subsequently converted to PDF. The core functionality relies on the `GithubTools` library for retrieving repository information and Google's Gemini 2.0 AI model (accessed through the `agno` framework) for code analysis and documentation generation. Graphviz is employed to generate a visual representation of the project's workflow. The tool streamlines the documentation process, providing developers with a means to produce high-quality technical documentation with minimal manual effort.
 
 ## Architecture
+The Code2Doc architecture comprises several key modules that work together to automate the documentation generation process:
 
-The architecture of Code2Doc is centered around an AI agent-driven workflow, coordinated by the `main.py` script. The process can be broken down into the following key stages:
+1.  **Main Module (`main.py`):** This is the entry point of the application. It's responsible for parsing user input (GitHub repository URL), initializing the `GithubTools` library, calling the AI-powered analysis using `agno`, orchestrating the documentation and workflow diagram generation, and finally, converting the Markdown output to a PDF document.
 
-1.  **Repository Analysis:** The tool takes a GitHub repository URL as input and uses the GitHub API to fetch the repository's contents, including files, directories, and dependencies.
-2.  **AI-Powered Content Generation:** The `agno` framework orchestrates an AI agent, powered by Google's Gemini 2.0, which analyzes the code and extracts relevant information. This includes identifying classes, functions, modules, and their relationships. Comments and docstrings are also extracted to provide context and explanations.
-3.  **Workflow Diagram Generation:** A dedicated `WorkflowArchitect` agent creates a visual representation of the project's architecture based on the extracted information. This diagram is rendered as a PNG image using the `graphviz` library.
-4.  **Documentation Assembly:** The extracted content is structured into a coherent document, typically in Markdown format. This includes sections on the project's introduction, architecture, implementation details, and dependencies.
-5.  **PDF Export:** The generated Markdown content and workflow diagram are combined into a professional-looking PDF document using the `PyMuPDF` library. The diagram is embedded within the PDF, and the text is formatted with headings, lists, and other styling elements.
+2.  **Documentation Creation Module (`doc_creation.py`):** This module takes the Markdown content generated by the AI analysis and transforms it into a professional-looking PDF document. It utilizes the `PyMuPDF` library to handle PDF formatting, styling including headings, lists and embedding the workflow diagram.
+
+3.  **Workflow Diagram Generation Module (`generate_project_workflow.py`):** This module generates a visual workflow diagram using Graphviz, based on a workflow JSON file.
+
+4.  **AI Analysis and Documentation Agent:** This component leverages the `agno` framework, Google Gemini 2.0, and a custom documentation agent to analyze the source code and generate the detailed technical documentation. The documentation includes function descriptions, class definitions, dependency analysis, and architectural overviews.
+
+The overall architecture emphasizes modularity and separation of concerns, facilitating maintainability and extensibility.
 
 ## Components
 
-### main.py
+### 1. `main.py`
 
-*   **Purpose and Functionality:** This is the main entry point of the application. It handles user input, orchestrates the AI agent, triggers documentation content generation, generates the workflow diagram, and creates the final PDF document.
-*   **Parameters:** Takes a GitHub repository URL and a question as input.
-*   **Key Implementation Details:**
-    *   Parses the GitHub repository URL.
-    *   Sets up the AI agent using `agno` and `google-genai`.
-    *   Invokes the agent to analyze the repository and generate documentation content.
-    *   Generates a workflow diagram using the `generate_project_workflow.py` module.
-    *   Creates the documentation content file (`content.txt`).
-    *   Calls `doc_creation.py` to convert the content and workflow diagram into a PDF document.
-*   **Error Handling:** Includes error handling for invalid repository URLs, AI agent failures, and PDF generation errors.
+#### Purpose and Functionality:
+The `main.py` script serves as the orchestrator of the documentation generation process. It handles user input validation, interacts with the GitHub API via `GithubTools`, invokes the AI-powered analysis through the `agno` framework and `google-genai`, and manages the creation of the final documentation output.
 
-### doc\_creation.py
+#### Key Implementation Details:
 
-*   **Purpose and Functionality:** Responsible for generating a PDF document from a text file, embedding the workflow diagram, and applying formatting.
-*   **Key Implementation Details:**
-    *   Uses the `PyMuPDF (fitz)` library to create and manipulate PDF documents.
-    *   Reads the documentation content from a text file (`content.txt`).
-    *   Embeds the workflow diagram image (`project_workflow_diagram.png`) into the PDF.
-    *   Formats the text with headings, bold text, lists, and other styling elements.
-    *   Creates the final PDF document (`simple_document.pdf`).
-*   **Dependencies:** `PyMuPDF`, `Pillow`.
+*   **Input Processing:** The script receives the GitHub repository URL as input, parses the URL to extract the owner and repository name.
+*   **Repository Data Retrieval:** Uses `GithubTools` to fetch the file structure and content of the repository from github.
+*   **AI-Powered Analysis:**  Leverages `agno` and `google-genai` along with a prompt designed for documentation to generate the `content.txt` file. The prompt feeds the AI the contents of all files within the target repository.
+*   **Documentation generation:** Creates a PDF of the `content.txt` file, generates a workflow diagram image, and then inserts the diagram into the markdown of the `content.txt` file before generating the updated `technical_documentation.pdf` file.
 
-### generate\_project\_workflow.py
+### 2. `doc_creation.py`
 
-*   **Purpose and Functionality:** Generates a workflow diagram from a JSON file representing the project's architecture.
-*   **Key Implementation Details:**
-    *   Uses the `graphviz` library to create a directed graph.
-    *   Reads the project architecture from a JSON file (`project_workflow.json`).
-    *   Creates nodes and edges in the graph based on the JSON data.
-    *   Renders the graph as a PNG image (`project_workflow_diagram.png`).
-    *   Handles dynamic sizing and styling of the diagram.
-*   **Dependencies:** `graphviz`.
+#### Purpose and Functionality:
+The `doc_creation.py` module is responsible for converting the Markdown-formatted documentation generated in `content.txt` into a well-structured PDF document. It utilizes the `PyMuPDF` library to handle PDF creation and formatting.
+
+#### Key Implementation Details:
+
+*   **Markdown Parsing:** Reads the documentation content from the `content.txt` file, which is formatted in Markdown.
+*   **PDF Generation:** Uses `PyMuPDF` to creates a new PDF document.
+*   **Formatting and Styling:**  Implements formatting rules to render Markdown headings, paragraphs, lists, and code blocks in the PDF document.
+*   **Image Embedding:** Embeds the generated workflow diagram (`project_workflow_diagram.png`) into the PDF.
+
+### 3. `generate_project_workflow.py`
+
+#### Purpose and Functionality:
+The `generate_project_workflow.py` script is responsible for generating a visual workflow diagram from a workflow description stored in a JSON file named `project_workflow.json`. It uses the Graphviz library to create the diagram.
+
+#### Key Implementation Details:
+
+*   **Workflow Description Parsing:** Reads the workflow description from the `project_workflow.json` file. This file specifies the nodes and edges of the workflow diagram.
+*   **Graphviz Integration:**  Uses Graphviz to create a directed graph representing the workflow.
+*   **Diagram Generation:** Generates the workflow diagram as a PNG image (`project_workflow_diagram.png`).
+
+### 4.  Dependencies and Imports
+
+*   **`GithubTools`:** Used for interacting with the github API to retrieve file contents.
+*   **`PyMuPDF` (fitz):** Used for manipulating PDF files.
+*   **`python-dotenv`:** Used for loading environment variables from a `.env` file.
+*   **`google.generativeai`:** Used for generating the documentation content using the Gemini AI model.
+*   **`PIL` (Pillow):** Used for working with images such as the workflow diagram.
+*   **`graphviz`:** Used in `generate_project_workflow.py` for generating the workflow diagram.
 
 ## Implementation Details
 
-### AI Agent Orchestration
+### Workflow Execution
 
-The project utilizes the `agno` framework to orchestrate the AI agents responsible for analyzing the code and generating documentation content. The AI agent is powered by Google's Gemini 2.0 and is configured to extract relevant information from the codebase. The orchestration process involves the following steps:
+1.  The program starts by taking a GitHub repository URL as an argument in `main.py`.
+2.  `main.py` uses `GithubTools` to download all of the file contents of the provided repository URL.
+3.  `main.py` passes the file content to the appropriate Google Gemini Pro model function. The Gemini Pro model is used to automatically generate the documentation text for the repository as a whole.
+4.  The generated text is saved to `content.txt`, and rendered as a PDF to `technical_documentation.pdf` using `doc_creation.py`.
+5.  Finally, another Google Gemini Pro model is used to automatically generate a workflow representing the program.
+6.  The workflow is output to a `project_workflow.json` file, and is rendered to a PNG image using `generate_project_workflow.py`.
+7.  The workflow image is embedded into the `content.txt` markdown file. The file is then rendered to `technical_documentation.pdf` again.
 
-1.  **Agent Definition:** Defining the AI agent's capabilities and objectives, including the tasks it should perform and the information it should extract.
-2.  **Environment Setup:** Configuring the agent's environment, including access to the GitHub API and the Gemini 2.0 model.
-3.  **Task Execution:** Invoking the agent to analyze the repository and generate documentation content.
-4.  **Result Processing:** Processing the agent's output and structuring it into a coherent document.
+### Error Handling
+The application includes basic error handling to catch exceptions during file processing, API calls, and documentation generation. More robust error handling could be implemented to improve the application's reliability.
 
-### PDF Generation
-
-The PDF generation process is handled by the `doc_creation.py` module, which leverages the `PyMuPDF` library. The process involves the following steps:
-
-1.  **Document Creation:** Creating a new PDF document.
-2.  **Content Insertion:** Reading the documentation content from a text file and inserting it into the PDF document.
-3.  **Image Embedding:** Embedding the workflow diagram image into the PDF document.
-4.  **Formatting:** Applying formatting to the text, including headings, bold text, lists, and other styling elements.
-5.  **Saving:** Saving the PDF document to a file.
-
-### Workflow Diagram Generation
-
-The workflow diagram generation process is handled by the `generate_project_workflow.py` module, which leverages the `graphviz` library. The process involves the following steps:
-
-1.  **Graph Creation:** Creating a new directed graph using the `graphviz` library.
-2.  **Node and Edge Creation:** Creating nodes and edges in the graph based on the project architecture data.
-3.  **Styling:** Applying styling to the nodes and edges, including colors, shapes, and labels.
-4.  **Rendering:** Rendering the graph as a PNG image.
+### Configuration and Environment setup
+The application relies on environment variables for API keys and other configuration parameters. These variables are loaded from a `.env` file using the `python-dotenv` library.  This allows for secure configuration and prevents sensitive information from being hardcoded into the source code.
 
 ## Integration
 
-### GitHub API
+### GitHub API Integration
+The application integrates with the GitHub API through the use of the `GithubTools` library. This integration enables the application to fetch repository metadata, file contents, and other relevant information required for documentation generation.
 
-The project integrates with the GitHub API to fetch repository data, including files, directories, and dependencies. This integration allows the AI agent to analyze the codebase and extract relevant information.
-
-### Google Gemini AI
-
-The project utilizes Google's Gemini 2.0 AI model to analyze the code and generate documentation content. This integration enables the tool to automatically extract key information about the project, including its architecture, components, and dependencies.
-
-### Graphviz
-
-The project integrates with the `graphviz` library to generate workflow diagrams. This integration allows the tool to create visual representations of the project's architecture, making it easier to understand the relationships between different components.
-
-### PyMuPDF
-
-The project integrates with the `PyMuPDF` library to generate PDF documents. This integration allows the tool to create professional-looking documents that include the generated documentation content and workflow diagrams.
-
-## Configuration and Environment Setup
-
-To run the Code2Doc project, the following configuration and environment setup steps are required:
-
-1.  **Install Dependencies:** Install the required Python dependencies using `pip install -r requirements.txt`.
-2.  **Set up Environment Variables:** Create a `.env` file and set the necessary environment variables, including the Google Gemini API key. An example would be `GOOGLE_API_KEY="your_api_key_here"`.
-3.  **Install Graphviz:** Install the `graphviz` library on your system. This may require installing additional packages depending on your operating system. Ensure that the Graphviz executables are on your system's PATH.
-4.  **Configure AI Agent:** Configure the AI agent with the appropriate settings, including the model to use and the tasks to perform.
-5.  **Run the Application:** Run the `main.py` script with the GitHub repository URL as input.
-
-## Error Handling
-
-The Code2Doc project includes error handling mechanisms to gracefully handle potential issues, such as invalid repository URLs, AI agent failures, and PDF generation errors. The error handling strategy involves the following:
-
-1.  **Input Validation:** Validating the input data, such as the GitHub repository URL, to ensure that it is in the correct format.
-2.  **Exception Handling:** Using `try-except` blocks to catch exceptions that may occur during the execution of the code.
-3.  **Logging:** Logging error messages to a file or console to facilitate debugging and troubleshooting.
-4.  **Retry Mechanisms:** Implementing retry mechanisms for transient errors, such as network connectivity issues.
-5.  **User Feedback:** Providing informative error messages to the user to help them understand the issue and take corrective action.
+### Google Gemini API Integration
+The application leverages the Google Gemini API via the `google-genai` and `agno` framework to automatically generate the documentation content and project workflow.  The API is called with detailed prompts to ensure the quality and completeness of the generated documentation.
 
 ## Conclusion
 
-The Code2Doc project provides a comprehensive solution for automating the generation of technical documentation from source code repositories. By leveraging AI-driven analysis, workflow diagram generation, and PDF export capabilities, the tool streamlines the documentation process and ensures that documentation remains consistent with the codebase.
-
-Key features and capabilities include:
-
-*   Automated documentation generation from GitHub repositories.
-*   AI-powered analysis using Google's Gemini 2.0.
-*   Workflow diagram generation using Graphviz.
-*   PDF export with embedded diagrams using PyMuPDF.
-*   Comprehensive documentation covering project overview, architecture, implementation details, and dependencies.
-
-Potential use cases and applications include:
-
-*   Generating documentation for internal projects.
-*   Documenting open-source libraries.
-*   Creating technical specifications for enterprise applications.
-*   Onboarding new team members.
-*   Understanding legacy code.
-
-Future considerations and extensibility points include:
-
-*   Supporting additional documentation formats, such as HTML and JSON.
-*   Integrating with other AI models and code analysis tools.
-*   Adding support for different diagram types.
-*   Improving the accuracy and completeness of the generated documentation.
-*   Adding more customization options for the documentation format and style.
+Code2Doc provides an automated solution for generating technical documentation from GitHub repositories. By combining repository analysis, AI-powered content generation, and visual workflow diagrams, the tool streamlines the documentation process and enables developers to create high-quality documentation with minimal effort. The key features include automated repository analysis, comprehensive documentation with introductions and conclusions, and professional PDF output. Potential use cases include generating documentation for open-source projects, creating internal documentation for enterprise applications, and producing technical reports for academic research. Future considerations include adding support for other version control systems, improving the AI-powered content generation capabilities, and enhancing the PDF formatting options. The tool's modular architecture allows for easy extension and adaptation to meet evolving documentation needs.
