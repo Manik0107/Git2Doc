@@ -18,7 +18,7 @@
 - 📕 **Produces professional PDFs** with embedded diagrams
 - 🎨 **Applies smart formatting** with headings, lists, and bold text
 
-![Documentation Preview](/Users/manikmanavenddram/Code2Doc/assets/code2doc_documentation_preview.png)
+![Documentation Preview](assets/code2doc_documentation_preview.png)
 
 ---
 
