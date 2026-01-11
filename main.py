@@ -121,7 +121,7 @@ response = agent.run(analysis_prompt)
 # Create documentation agent with proper Agno configuration
 documenter = Agent(
     name="DocumentationSpecialist",
-    model=OpenRouter(id="google/gemini-2.0-flash-001"),
+    model=OpenRouter(id="google/gemini-2.0-flash-001", max_tokens=8000),  # Increased token limit
     description="Software documentation specialist that produces formal technical documentation from repository analysis",
     
     # Instructions - consolidated into clear, structured format
@@ -146,9 +146,12 @@ CONSTRAINTS:
 - Do not speculate beyond the provided input
 - Do not copy input text verbatim
 - Maintain technical accuracy and clarity
+- Do NOT wrap your output in markdown code fences (no ```markdown or ``` markers)
+- Output only the documentation content itself
 
 OUTPUT REQUIREMENTS:
-- Create a COMPREHENSIVE technical document that covers ALL aspects of the code
+- Create a COMPREHENSIVE and COMPLETE technical document that covers ALL aspects of the code
+- ENSURE the document is FULLY COMPLETED - do not cut off mid-sentence or mid-section
 - MUST start with an **Introduction** section that provides:
   * Overview of the project/file purpose
   * High-level summary of what the code accomplishes
@@ -173,7 +176,8 @@ OUTPUT REQUIREMENTS:
   * Future considerations or extensibility points
 - Write for readers without prior knowledge of the implementation
 - Use proper technical terminology and formal language
-- Be thorough and detailed - this documentation should serve as a complete technical reference""",
+- Be thorough and detailed - this documentation should serve as a complete technical reference
+- CRITICAL: Ensure you complete ALL sections fully, including the Conclusion section at the end""",
     
     # Expected output format
     expected_output="Comprehensive technical documentation in markdown format with clear sections, detailed explanations, and professional technical writing",
@@ -200,10 +204,26 @@ This placeholder will be replaced with the actual workflow diagram image.""",
 
 # Generate documentation
 print("📝 Generating documentation...")
-response1 = documenter.run("Generate comprehensive technical documentation for the analyzed repository file")
+response1 = documenter.run("""Generate COMPLETE and COMPREHENSIVE technical documentation for the entire repository.
+
+IMPORTANT REQUIREMENTS:
+1. You MUST complete ALL sections - do not stop mid-sentence or mid-section
+2. Include a proper Conclusion section at the end
+3. Ensure the document is fully finished before stopping
+4. Cover ALL files, components, and implementation details
+5. The documentation should be at least 100+ lines long to be comprehensive
+
+Generate the complete documentation now:""")
 
 # Get the documentation content
 doc_content = str(response1.content)
+
+# Clean markdown code fences and other artifacts from the beginning/end
+import re
+doc_content = re.sub(r'^```markdown\s*', '', doc_content.strip())
+doc_content = re.sub(r'^```\s*', '', doc_content)
+doc_content = re.sub(r'\s*```$', '', doc_content)
+doc_content = doc_content.strip()
 
 # Save the documentation (with placeholder for now)
 output_file = "content.txt"

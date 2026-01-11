@@ -1,339 +1,164 @@
-# Technical Documentation for DSPy Manim Workflow
+# Code2Doc: Automated Documentation Generation Tool
 
 ## Introduction
 
-### Project Overview
+The Code2Doc project is designed to automate the generation of comprehensive technical documentation from source code repositories. It leverages AI-driven analysis, specifically Google's Gemini 2.0, to extract key information about the project, including its architecture, components, dependencies, and workflows. The tool aims to reduce the manual effort required in creating and maintaining up-to-date documentation, ensuring that it remains consistent with the codebase. The generated documentation is structured in a human-readable format (Markdown), and can be exported to professional PDF documents with embedded workflow diagrams.
 
-The `dspy_manim_workflow.py` file within the `Manik0107/VATA` repository defines a sophisticated, **DSPy-enhanced system** designed for the automated generation of educational Manim animations. This system integrates advanced natural language processing capabilities, primarily powered by **Google's Gemini models** through the DSPy framework, to transform raw educational documents and specific topic queries into runnable Manim Python scripts. The generated scripts are engineered to produce detailed, pedagogically sound animations, complete with narrations, visual synchronizations, and sophisticated labeling systems.
+This documentation is intended for software developers, architects, technical writers, and anyone seeking to understand the inner workings of a software project. It provides a detailed overview of the system's design, implementation, and usage, serving as a valuable resource for onboarding new team members, understanding legacy code, or evaluating the technical aspects of a project. The expected use cases include generating documentation for internal projects, open-source libraries, and enterprise applications, streamlining the documentation process and improving overall code maintainability.
 
-### Context and Motivation
 
-The primary motivation behind this implementation is to streamline the creation of high-quality educational content in the form of animations. Manual Manim animation development is a time-consuming and technically demanding process. This workflow automates significant portions of this process, from content extraction and pedagogical planning to storyboard design and code generation. The system aims to produce animations that effectively explain complex concepts, proactively address potential learning gaps by explaining prerequisite knowledge, and feature advanced visual storytelling with precise synchronization and comprehensive labeling, thereby enhancing the learning experience.
+## Workflow Diagram
 
-### Target Audience and Use Cases
+![Project Workflow Diagram](/Users/manikmanavenddram/Code2Doc/project_workflow_diagram.png)
 
-This technical documentation is intended for **software developers, system architects, technical project managers, and researchers** interested in AI-driven content generation, educational technology, and the application of large language models (LLMs) in complex, multi-stage workflows.
+*Figure: High-level workflow architecture of the project*
 
-Potential use cases include:
-*   **Automated Educational Content Production**: Generating course materials, tutorials, and explanatory videos for academic institutions or online learning platforms.
-*   **Rapid Prototyping of Visual Explanations**: Quickly creating visual aids for complex scientific or mathematical concepts.
-*   **Research in AI-driven Content Creation**: Serving as a foundational framework for further exploration into LLM-guided code generation and pedagogical AI.
-*   **Internal Technical Manuals**: Documenting the underlying mechanisms for maintaining and extending the animation generation pipeline.
 
-## System Architecture
+## Overview
 
-### High-Level Design
+Code2Doc automates the creation of detailed technical documentation from source code repositories. It employs a multi-stage process, beginning with repository analysis, followed by AI-driven content generation, workflow diagram creation, and finally, PDF document assembly. The core components include a main orchestration script (`main.py`), a PDF generation module (`doc_creation.py`), and a workflow diagram generator (`generate_project_workflow.py`). The tool leverages external libraries such as `agno` for AI agent orchestration, `google-genai` for interacting with the Gemini AI model, and `PyMuPDF` for PDF manipulation.
 
-The `dspy_manim_workflow` operates as a **sequential processing pipeline**, orchestrated by the DSPy framework. Each stage of the pipeline leverages a specialized **DSPy Module** backed by an LLM (specifically Google Gemini) to perform a distinct task, building upon the output of the preceding stage. The system begins with document ingestion and content extraction, proceeds through pedagogical planning and animation design, and culminates in the generation of executable Manim code. The design emphasizes modularity, allowing for clear separation of concerns and individual component refinement.
+The project aims to provide a streamlined solution for software documentation, reducing the time and effort required to produce high-quality technical specifications. It caters to developers and technical stakeholders who need to quickly understand and document codebases. The generated documentation includes sections on project overview, architecture, implementation details, dependencies, and usage instructions.
 
-### Core Components Interaction
+## Architecture
 
-The interaction between components is characterized by a flow of increasingly refined and structured data.
-1.  **DocumentGroundedExtractor**: Initiates the process by extracting raw content and identifying knowledge gaps.
-2.  **EducationalPlanner**: Takes the extracted content and gap analysis to formulate a structured teaching plan.
-3.  **AnimationDesigner**: Transforms the pedagogical plan into a detailed animation storyboard.
-4.  **EnhancedNarrationGenerator** (Optional) / **DetailedStoryboardGenerator** (Optional): Provide granular refinements to narration and visual specifications, which are then merged.
-5.  **ManimCodeGenerator**: Receives the final, comprehensive storyboard and generates the Manim Python script, critically injecting a **UniversalLabelingSystem** for consistent visual annotations.
-6.  **DSPyManipWorkflow**: Acts as the orchestrator, chaining these modules together, managing configurations, and handling input/output operations.
+The architecture of Code2Doc is centered around an AI agent-driven workflow, coordinated by the `main.py` script. The process can be broken down into the following key stages:
 
-This pipeline structure ensures that the LLM's capabilities are leveraged effectively at each specific stage, transforming high-level intent into granular, executable instructions.
+1.  **Repository Analysis:** The tool takes a GitHub repository URL as input and uses the GitHub API to fetch the repository's contents, including files, directories, and dependencies.
+2.  **AI-Powered Content Generation:** The `agno` framework orchestrates an AI agent, powered by Google's Gemini 2.0, which analyzes the code and extracts relevant information. This includes identifying classes, functions, modules, and their relationships. Comments and docstrings are also extracted to provide context and explanations.
+3.  **Workflow Diagram Generation:** A dedicated `WorkflowArchitect` agent creates a visual representation of the project's architecture based on the extracted information. This diagram is rendered as a PNG image using the `graphviz` library.
+4.  **Documentation Assembly:** The extracted content is structured into a coherent document, typically in Markdown format. This includes sections on the project's introduction, architecture, implementation details, and dependencies.
+5.  **PDF Export:** The generated Markdown content and workflow diagram are combined into a professional-looking PDF document using the `PyMuPDF` library. The diagram is embedded within the PDF, and the text is formatted with headings, lists, and other styling elements.
 
 ## Components
 
-### Dependencies and Imports
+### main.py
 
-The system relies on a combination of standard Python libraries and specialized external packages.
+*   **Purpose and Functionality:** This is the main entry point of the application. It handles user input, orchestrates the AI agent, triggers documentation content generation, generates the workflow diagram, and creates the final PDF document.
+*   **Parameters:** Takes a GitHub repository URL and a question as input.
+*   **Key Implementation Details:**
+    *   Parses the GitHub repository URL.
+    *   Sets up the AI agent using `agno` and `google-genai`.
+    *   Invokes the agent to analyze the repository and generate documentation content.
+    *   Generates a workflow diagram using the `generate_project_workflow.py` module.
+    *   Creates the documentation content file (`content.txt`).
+    *   Calls `doc_creation.py` to convert the content and workflow diagram into a PDF document.
+*   **Error Handling:** Includes error handling for invalid repository URLs, AI agent failures, and PDF generation errors.
 
-#### Standard Libraries
-*   **`os`**: Provides an interface for operating system interactions, primarily for environment variable management (`os.getenv`).
-*   **`json`**: Facilitates the serialization and deserialization of data in JSON format, used for structured data exchange.
-*   **`time`**: Utilized for time-related functions, particularly in implementing retry mechanisms with delays.
-*   **`typing`** (`Dict`, `List`, `Optional`, `Any`): Enhances code readability and maintainability through static type hinting.
-*   **`pathlib`** (`Path`): Offers an object-oriented approach to file system paths, simplifying file I/O operations.
-*   **`dataclasses`** (`dataclass`): Although imported, its direct use for custom data classes is minimal, often integrated within DSPy's internal structures.
-*   **`re`**: Supports regular expression operations, applied in generating class names and parsing retry delays from error messages.
-*   **`random`**: Used to introduce random jitter to exponential backoff delays, preventing synchronized retries.
+### doc\_creation.py
 
-#### External Libraries
-*   **`dspy`**: The foundational framework for programming with language models. It provides abstractions for defining LLM interfaces (`Signature`) and workflow stages (`Module`).
-*   **`dotenv`** (`load_dotenv`): Enables the loading of environment variables from a `.env` file, crucial for secure API key management.
-*   **`google`** (`genai`, `types` from `google.genai`): The official Google Generative AI client library, enabling direct communication with Google's Gemini models.
+*   **Purpose and Functionality:** Responsible for generating a PDF document from a text file, embedding the workflow diagram, and applying formatting.
+*   **Key Implementation Details:**
+    *   Uses the `PyMuPDF (fitz)` library to create and manipulate PDF documents.
+    *   Reads the documentation content from a text file (`content.txt`).
+    *   Embeds the workflow diagram image (`project_workflow_diagram.png`) into the PDF.
+    *   Formats the text with headings, bold text, lists, and other styling elements.
+    *   Creates the final PDF document (`simple_document.pdf`).
+*   **Dependencies:** `PyMuPDF`, `Pillow`.
 
-### Configuration Management
+### generate\_project\_workflow.py
 
-Key configurations are handled via environment variables and external files:
-*   **`GEMINI_API_KEY`**: This critical API key is loaded from the environment using `load_dotenv()` and `os.getenv()`. It is essential for authenticating all requests to the Google Gemini models.
-*   **`OVERALL_MANIM_CODE_GUIDELINES`**: General instructions and best practices for Manim code generation are loaded from `prompts/prompt1.txt`. This externalization allows for flexible updates to high-level LLM guidance without altering the core script.
-
-### DSPy Signatures
-
-**DSPy Signatures** define the clear input and output contracts for each interaction with an LLM, ensuring structured and predictable communication.
-
-#### `DocumentExtractionSignature`
-*   **Purpose**: To extract specific educational content entities from a given document.
-*   **Inputs**: `document_content` (string containing the full document text), `topic_query` (string specifying the focus topic).
-*   **Outputs**: `extracted_formulas`, `step_by_step_explanations`, `visual_descriptions`, `key_concepts`, `derivations` (all as strings).
-
-#### `EducationalPlanSignature`
-*   **Purpose**: To generate a comprehensive pedagogical plan for teaching a specific topic.
-*   **Inputs**: `topic` (string), `extracted_content` (rich, formatted string of structured data from extraction).
-*   **Outputs**: `teaching_sequence` (string, 8-12 detailed stages), `explanation_breakdown` (string, pedagogical details, min 300 words), `prerequisite_concepts` (string, hierarchical map), `visual_requirements` (string, specific Manim animations, timing).
-
-#### `ConceptGapAnalyzer`
-*   **Purpose**: To identify and categorize unexplained technical terms and knowledge gaps within educational content.
-*   **Inputs**: `content` (string, educational text), `context` (string, learning context or target audience).
-*   **Outputs**: `technical_terms` (list of strings), `prerequisite_concepts` (list of strings), `explanation_gaps` (list of strings), `concept_dependencies` (string, mapping).
-
-#### `ConceptExplanationGenerator`
-*   **Purpose**: To generate detailed explanations for identified prerequisite concepts.
-*   **Inputs**: `concept` (string, the concept to explain), `context` (string), `audience_level` (string).
-*   **Outputs**: `explanation_text` (string), `visual_demonstration` (string), `interactive_elements` (string), `connection_to_main_topic` (string).
-
-#### `AnimationStoryboardSignature`
-*   **Purpose**: To create a cinematic storyboard for Manim animations from a teaching plan.
-*   **Inputs**: `teaching_plan` (string, formatted plan), `content` (string, formatted with prerequisites), `prerequisite_explanations` (JSON string).
-*   **Outputs**: `concept_introduction_sequence` (string), `cinematic_arc` (string), `scenes` (string, Manim animations, timing), `visuals` (string, Manim objects, colors), `timing` (string, professional specs), `narration` (string, voice-over script), `interactive_elements` (string), `engagement_techniques` (string), `animation_lifecycle` (string).
-
-#### `ManimCodeSignature`
-*   **Purpose**: To generate runnable Manim Python code from a detailed storyboard.
-*   **Inputs**: `storyboard` (string, detailed specifications), `class_name` (string, for the Manim scene).
-*   **Outputs**: `manim_code` (string, complete Python code), `code_explanation` (string, explanation of techniques, design).
-
-#### `EnhancedNarrationSignature`
-*   **Purpose**: To generate refined educational narration with precise visual synchronization.
-*   **Inputs**: `topic` (string), `teaching_content` (string).
-*   **Outputs**: `actual_narration_script` (string, spoken words), `visual_synchronization` (string, timing marks), `engagement_techniques` (string).
-
-#### `DetailedStoryboardSignature`
-*   **Purpose**: To create a minute-detail visual storyboard for a given concept.
-*   **Inputs**: `concept` (string), `educational_context` (string).
-*   **Outputs**: `scene_composition` (string, visual layout, colors), `animation_specifications` (string, precise Manim animations, timing), `visual_storytelling` (string, narrative progression).
-
-### DSPy Modules
-
-These classes inherit from `dspy.Module` and encapsulate specific stages of the workflow, often using `dspy.ChainOfThought` for structured LLM reasoning.
-
-#### `DocumentGroundedExtractor`
-*   **Role**: Responsible for extracting educational content from documents, analyzing it for conceptual gaps, and generating explanations for prerequisite concepts.
-*   **Internal Modules**:
-    *   `self.extractor`: An instance of `DocumentExtractionSignature`.
-    *   `self.gap_analyzer`: An instance of `ConceptGapAnalyzer`.
-    *   `self.concept_explainer`: An instance of `ConceptExplanationGenerator`.
-*   **`forward(self, document_path: str, topic: str)`**:
-    *   Reads `document_content` from the specified `document_path`. It supports both plain text and `.pdf` files, utilizing Gemini's multimodal capabilities for PDF extraction via `_extract_pdf_with_gemini`.
-    *   Invokes `self.extractor` to obtain initial structured content related to the `topic`.
-    *   Combines the extracted content and calls `self.gap_analyzer` to identify `technical_terms`, `prerequisite_concepts`, and `explanation_gaps`.
-    *   Iterates through up to five identified prerequisite concepts, calling `self.concept_explainer` for each (using `_retry_with_backoff`) to generate detailed explanations, visual demonstrations, interactive elements, and connections to the main topic.
-    *   Returns a dictionary containing all extracted content, gap analysis results, and the generated prerequisite explanations.
-*   **Utility Methods**:
-    *   **`_retry_with_backoff(...)`**: A robust helper method that wraps LLM calls, implementing **exponential backoff with random jitter** to handle API rate limits and transient errors. It can parse specific retry delays from error messages.
-    *   **`_extract_pdf_with_gemini(self, pdf_path: str)`**: Utilizes `genai.Client` and the `gemini-2.0-flash` model to extract text content from PDF files, aiming to preserve formulas and formatting.
-
-#### `EducationalPlanner`
-*   **Role**: Formulates a comprehensive educational teaching plan based on extracted content and pedagogical requirements.
-*   **Internal Module**:
-    *   `self.planner`: An instance of `EducationalPlanSignature`.
-*   **`forward(self, topic: str, extracted_content: Dict[str, Any])`**:
-    *   Constructs a highly detailed prompt for the LLM, emphasizing specific requirements for the `teaching_sequence`, `explanation_breakdown`, `prerequisite_concepts`, and `visual_requirements`.
-    *   Calls `self.planner` (wrapped with `_retry_with_backoff`) to generate the educational plan.
-    *   Includes a **fallback mechanism** to return a minimal plan if the LLM generation fails.
-    *   Calls `_create_enhanced_visual_specifications` to generate an additional prompt for detailed visual elements.
-    *   Returns a dictionary containing the generated teaching sequence, explanation breakdown, prerequisites, visual needs, and enhanced visual specifications.
-*   **Utility Methods**:
-    *   **`_create_enhanced_visual_specifications(...)`**: Generates a detailed prompt for visual specifications, covering scene composition, animation details, educational design principles, and Manim implementation specifics.
-    *   **`_format_extracted_content(...)`**: Converts the `extracted_content` dictionary into a readable string format suitable for LLM input.
-
-#### `AnimationDesigner`
-*   **Role**: Converts the educational teaching plan into a cinematic Manim animation storyboard, detailing visual and narrative elements.
-*   **Internal Module**:
-    *   `self.designer`: An instance of `AnimationStoryboardSignature`.
-*   **`forward(self, topic: str, teaching_plan: Dict[str, Any], detailed_storyboard: bool = False)`**:
-    *   Extracts and formats prerequisite explanations from the `teaching_plan`.
-    *   Constructs a comprehensive prompt for storyboard generation, integrating requirements for narration, detailed visual storytelling, synchronization, and engagement techniques.
-    *   If `detailed_storyboard` is `True`, it calls `_create_detailed_visual_storyboard` to generate even finer-grained visual specifications.
-    *   Calls `self.designer` to generate the animation storyboard.
-    *   Returns a dictionary containing all storyboard elements: `cinematic_arc`, `scenes`, `visuals`, `timing`, `narration`, `interactive_elements`, and `animation_lifecycle`.
-*   **Utility Methods**:
-    *   **`_create_detailed_visual_storyboard(...)`**: Generates a prompt for a minute-detail visual storyboard, encompassing camera movements, object positioning, animation lifecycle, and educational engagement.
-    *   **`_format_teaching_plan(...)`**: Formats the `teaching_plan` dictionary into a string suitable for LLM input.
-
-#### `EnhancedNarrationGenerator`
-*   **Role**: Generates a refined educational narration script, including visual synchronization marks.
-*   **Internal Module**:
-    *   `self.narrator`: An instance of `EnhancedNarrationSignature`.
-*   **`forward(self, topic: str, teaching_content: str)`**:
-    *   Calls `self.narrator` to produce the `actual_narration_script`, `visual_synchronization` marks, and `engagement_techniques`.
-    *   Returns these outputs in a dictionary.
-
-#### `DetailedStoryboardGenerator`
-*   **Role**: Creates a minute-detail visual storyboard, focusing on precise visual specifications.
-*   **Internal Module**:
-    *   `self.storyboard_generator`: An instance of `DetailedStoryboardSignature`.
-*   **`forward(self, concept: str, context: str)`**:
-    *   Calls `self.storyboard_generator` to generate `scene_composition`, `animation_specifications`, and `visual_storytelling` details.
-    *   Returns these as a dictionary.
-
-#### `ManimCodeGenerator`
-*   **Role**: Generates the final, executable Manim Python code from the comprehensive storyboard.
-*   **Internal Module**:
-    *   `self.generator`: An instance of `ManimCodeSignature`.
-*   **`UniversalLabelingSystem` Class**:
-    *   A critical component, `self.universal_labeling_system` is a multi-line string containing the Python definition of a `UniversalLabelingSystem` class. This class is **injected directly into the prompt** for the LLM.
-    *   It provides methods such as `create_smart_label`, `create_coordinate_label`, `create_component_labels`, `create_math_annotation`, `create_state_indicator`, `create_neural_network_labels`, and `create_function_comparison_labels`.
-    *   It also includes `animate_labels_in`, `animate_labels_out`, and `clear_labels` for managing label visibility and animation.
-    *   This ensures consistent, pedagogically effective, and technically sound labeling within the generated Manim code by providing the LLM with a predefined, robust utility.
-*   **`forward(self, storyboard: dict, class_name: str = "EducationalAnimation")`**:
-    *   Constructs a highly prescriptive and detailed prompt for code generation. This prompt is paramount for guiding the LLM's output.
-    *   It prepends the `OVERALL_MANIM_CODE_GUIDELINES`.
-    *   It **injects the entire `UniversalLabelingSystem` class definition**.
-    *   It specifies **MANDATORY REQUIREMENTS** for how the LLM *must* utilize this labeling system (e.g., initialization, method usage for different object types, label animation).
-    *   It defines clear **ANIMATION LIFECYCLE REQUIREMENTS** (ENTRANCE → EXPLANATION → CLEANUP → EXIT) for all animated elements.
-    *   It includes a **COMPREHENSIVE LABELING CHECKLIST** for the LLM to adhere to and verify.
-    *   It incorporates the full, detailed storyboard from previous stages.
-    *   It provides **CRITICAL INSTRUCTIONS** for code generation, emphasizing exact scene implementation, removal of `[PAUSE]` markers from narration, adherence to timing, and generation of sophisticated visuals.
-    *   Calls `self.generator` to produce the `manim_code` and its `code_explanation`.
-    *   Returns a dictionary with the generated code, its explanation, and the assigned class name.
-*   **Utility Methods**:
-    *   **`_format_storyboard(...)`**: Formats the entire storyboard dictionary into a comprehensive string, explicitly adding sections for enhanced narration and detailed storyboard specifications if they are present.
-
-#### `DSPyManipWorkflow` (Main Pipeline)
-This is the top-level orchestrator for the entire animation generation process.
-
-*   **`__init__(self, api_key: str)`**:
-    *   Initializes instances of all individual DSPy modules: `extractor`, `planner`, `designer`, `narrator`, `detailed_storyboard`, and `generator`.
-    *   Calls `_setup_dspy_lm()` to configure the DSPy language model, ensuring it's ready for use.
-*   **`_setup_dspy_lm(self)`**:
-    *   Sets the `GEMINI_API_KEY` in the environment.
-    *   Configures `dspy.settings.configure(lm=lm)` by attempting to use preferred Gemini models (e.g., `gemini/gemini-1.5-flash`) with fallback options. Includes robust error handling to manage failed model configurations and raises a `ValueError` if no suitable model can be initialized.
-*   **`forward(self, document_path: str, topic: str, class_name: str = None, enhanced_narration: bool = False, detailed_storyboard: bool = False)`**:
-    *   This is the main entry point, executing the entire workflow sequentially.
-    *   **1. Content Extraction**: Calls `self.extractor` to process the input document and identify educational content and knowledge gaps.
-    *   **2. Educational Planning**: Calls `self.planner` to generate a pedagogical teaching plan.
-    *   **3. Storyboard Design**: Calls `self.designer` to create an initial animation storyboard.
-    *   **4. Enhanced Features (Optional)**: If `enhanced_narration` or `detailed_storyboard` flags are `True`, it calls `self.narrator` and/or `self.detailed_storyboard` respectively to generate refined content.
-    *   **5. Feature Merging**: Calls `_merge_enhanced_features` to integrate any generated optional features into the main storyboard, ensuring all refined details are passed to the code generation stage.
-    *   **6. Code Generation**: Calls `self.generator` with the final, comprehensive storyboard to produce the Manim Python code.
-    *   **Class Name Generation**: Automatically generates a valid Python class name using `_generate_class_name` if `class_name` is not provided.
-    *   Returns a comprehensive dictionary (`results`) containing all intermediate outputs, the final generated code, and metadata.
-*   **Helper Methods**:
-    *   **`_merge_enhanced_features(...)`**: Integrates the outputs from `EnhancedNarrationGenerator` and `DetailedStoryboardGenerator` into the primary `storyboard` dictionary.
-    *   **`_generate_class_name(self, topic: str)`**: Creates a valid Python class name by cleaning the input `topic`, capitalizing words, and appending "Animation".
-    *   **`save_code(self, results: Dict[str, Any], output_path: str)`**: Takes the `results` dictionary and an `output_path`, constructs a metadata header for the Manim file (including the class name, topic, and Manim run command), combines it with the generated code, and writes the final script to the specified file.
+*   **Purpose and Functionality:** Generates a workflow diagram from a JSON file representing the project's architecture.
+*   **Key Implementation Details:**
+    *   Uses the `graphviz` library to create a directed graph.
+    *   Reads the project architecture from a JSON file (`project_workflow.json`).
+    *   Creates nodes and edges in the graph based on the JSON data.
+    *   Renders the graph as a PNG image (`project_workflow_diagram.png`).
+    *   Handles dynamic sizing and styling of the diagram.
+*   **Dependencies:** `graphviz`.
 
 ## Implementation Details
 
-### Workflow Execution Flow
+### AI Agent Orchestration
 
-The `DSPyManipWorkflow.forward` method orchestrates the complete animation generation process through a structured sequence of steps:
+The project utilizes the `agno` framework to orchestrate the AI agents responsible for analyzing the code and generating documentation content. The AI agent is powered by Google's Gemini 2.0 and is configured to extract relevant information from the codebase. The orchestration process involves the following steps:
 
-1.  **Document Intake & Initial Analysis**:
-    *   The workflow begins by reading the input educational document (supporting PDF via multimodal LLM capabilities and plain text files).
-    *   The `DocumentGroundedExtractor` analyzes this content to extract key educational components such as formulas, step-by-step explanations, visual descriptions, core concepts, and derivations.
-    *   Concurrently, it performs a **gap analysis** to identify technical terms or prerequisite concepts that may require additional explanation.
-    *   For the identified prerequisites, the system proactively generates detailed explanations to ensure the animation is self-contained and accessible.
+1.  **Agent Definition:** Defining the AI agent's capabilities and objectives, including the tasks it should perform and the information it should extract.
+2.  **Environment Setup:** Configuring the agent's environment, including access to the GitHub API and the Gemini 2.0 model.
+3.  **Task Execution:** Invoking the agent to analyze the repository and generate documentation content.
+4.  **Result Processing:** Processing the agent's output and structuring it into a coherent document.
 
-2.  **Pedagogical Planning**:
-    *   Utilizing the extracted content and the generated prerequisite explanations, the `EducationalPlanner` formulates a comprehensive teaching plan.
-    *   This plan defines a step-by-step learning progression, outlines specific pedagogical strategies for each concept, maps out hierarchical prerequisite dependencies, and specifies general visual requirements for the animation.
+### PDF Generation
 
-3.  **Storyboard Design**:
-    *   The `AnimationDesigner` takes the pedagogical plan and translates it into a detailed, cinematic animation storyboard.
-    *   This stage involves defining the overall storytelling arc, segmenting the content into individual scenes, specifying visual elements (Manim objects, colors), setting animation timings, and drafting an initial narration script.
-    *   Crucially, explicit integration points for prerequisite concept introductions are established within the storyboard.
+The PDF generation process is handled by the `doc_creation.py` module, which leverages the `PyMuPDF` library. The process involves the following steps:
 
-4.  **Enhanced Content Generation (Optional)**:
-    *   Depending on configuration flags (`enhanced_narration`, `detailed_storyboard`), the workflow can generate additional refined content:
-        *   **Enhanced Narration**: The `EnhancedNarrationGenerator` produces a more sophisticated narration script, complete with precise timing marks for visual synchronization and specific engagement techniques.
-        *   **Detailed Storyboard**: The `DetailedStoryboardGenerator` creates minute-level visual specifications, including scene composition, precise animation parameters, and an elaborate visual storytelling narrative.
+1.  **Document Creation:** Creating a new PDF document.
+2.  **Content Insertion:** Reading the documentation content from a text file and inserting it into the PDF document.
+3.  **Image Embedding:** Embedding the workflow diagram image into the PDF document.
+4.  **Formatting:** Applying formatting to the text, including headings, bold text, lists, and other styling elements.
+5.  **Saving:** Saving the PDF document to a file.
 
-5.  **Integration of Enhanced Features**:
-    *   Any generated enhanced narration or detailed storyboard elements are meticulously merged into the primary storyboard. This ensures that all granular refinements and additional instructions are carried forward, enriching the context for the final code generation.
+### Workflow Diagram Generation
 
-6.  **Manim Code Generation**:
-    *   The `ManimCodeGenerator` receives the complete and highly detailed storyboard (incorporating all standard and enhanced specifications).
-    *   A **critical aspect** here is the mandatory inclusion and utilization of the `UniversalLabelingSystem` within the generated Manim code. This ensures all visual elements are comprehensively and consistently labeled according to predefined pedagogical standards.
-    *   The LLM is also mandated to adhere to strict animation lifecycle requirements: **ENTRANCE** (objects appear) → **EXPLANATION** (concept is animated/narrated) → **CLEANUP** (elements are removed or transformed) → **EXIT** (scene transition), resulting in clean and effective visual presentations.
+The workflow diagram generation process is handled by the `generate_project_workflow.py` module, which leverages the `graphviz` library. The process involves the following steps:
 
-7.  **Output and Saving**:
-    *   The workflow culminates by returning a comprehensive dictionary containing all intermediate outputs and the final generated Manim code.
-    *   The `save_code` method allows the generated Python script to be written to a specified `.py` file, ready for execution and rendering by the Manim engine.
+1.  **Graph Creation:** Creating a new directed graph using the `graphviz` library.
+2.  **Node and Edge Creation:** Creating nodes and edges in the graph based on the project architecture data.
+3.  **Styling:** Applying styling to the nodes and edges, including colors, shapes, and labels.
+4.  **Rendering:** Rendering the graph as a PNG image.
 
-### Algorithms and Logic
+## Integration
 
-*   **DSPy Chain-of-Thought (CoT)**: Extensively employed across various DSPy modules (`dspy.ChainOfThought`) to encourage the LLMs to perform multi-step, structured reasoning. This approach guides the LLM to break down complex tasks into intermediate logical steps, improving the coherence and quality of its responses.
-*   **Structured Prompt Engineering**: The system relies heavily on carefully crafted, highly prescriptive prompts. These prompts are designed with specific sections and explicit requirements to guide the LLM's output, ensuring adherence to desired formats, content specifics, and Manim's technical conventions.
-*   **Multimodal PDF Processing**: Leverages Google Gemini's multimodal capabilities to directly ingest and extract text content, including formulas and formatting, from PDF documents. This is a powerful feature for handling diverse educational content sources.
-*   **Proactive Knowledge Gap Addressing**: The `ConceptGapAnalyzer` and `ConceptExplanationGenerator` modules implement a proactive strategy to identify and explain foundational prerequisite concepts. This ensures the generated educational animation is self-contained, addresses potential learning barriers, and is pedagogically effective for a broader audience.
-*   **Injectable Helper Code (`UniversalLabelingSystem`)**: A key architectural pattern involves injecting functional Python code (the `UniversalLabelingSystem` class) directly into the LLM's context during code generation. The LLM is then **forced to integrate and utilize** this predefined utility, significantly increasing control over the structural and functional aspects of the generated code, especially for consistent and sophisticated labeling.
-*   **Animation Lifecycle Management**: The code generation prompt explicitly dictates a clear "ENTRANCE → EXPLANATION → CLEANUP → EXIT" pattern for all animated elements. This logic promotes cleaner, more organized, and pedagogically effective visual presentations by enforcing a structured animation flow.
-*   **Robust API Interaction with Exponential Backoff**: The `_retry_with_backoff` utility function implements a robust error handling mechanism for LLM API calls. It uses **exponential backoff with random jitter** to mitigate issues such as API rate limits (HTTP 429) and transient network errors, enhancing the system's reliability and stability.
+### GitHub API
 
-### Data Structures
+The project integrates with the GitHub API to fetch repository data, including files, directories, and dependencies. This integration allows the AI agent to analyze the codebase and extract relevant information.
 
-The primary data structures used for information exchange and internal representation are standard Python types:
-*   **`Dict[str, Any]`**: The predominant data structure for passing structured information between different modules and stages of the pipeline. This includes extracted content, teaching plans, storyboards, and final results.
-*   **`List[str]`**: Used for collections of textual items, such as lists of technical terms, prerequisite concepts, or identified explanation gaps.
-*   **`str`**: Employed for all textual content, including document content, LLM prompts, and the final generated Manim Python code.
-*   **`pathlib.Path` objects**: Utilized for object-oriented filesystem path manipulation, streamlining file I/O operations and path construction.
+### Google Gemini AI
 
-### Error Handling
+The project utilizes Google's Gemini 2.0 AI model to analyze the code and generate documentation content. This integration enables the tool to automatically extract key information about the project, including its architecture, components, and dependencies.
 
-The system incorporates several error handling mechanisms to enhance its robustness:
-*   **File I/O Error Handling**: `try-except` blocks are used to catch and manage potential `IOError` exceptions that may occur during file reading operations, such as when the input document cannot be found or accessed.
-*   **API Rate Limiting and Transient Errors**: The `_retry_with_backoff` function is specifically designed to handle API rate limit errors (e.g., HTTP 429 status codes) and other temporary API issues. It implements exponential backoff with random jitter, intelligently retrying failed LLM requests with increasing delays. It also attempts to parse specific retry delays from error messages provided by the API.
-*   **Gemini PDF Extraction Failures**: Checks are performed on the responses from the Gemini API during PDF text extraction. If text extraction fails or returns an invalid response, a `ValueError` is raised, indicating an issue with the multimodal processing.
-*   **LLM Generation Failures**: The `EducationalPlanner.forward` method includes a `try-except` block to catch general exceptions during the pedagogical plan generation process. In such cases, it provides a minimal fallback plan, preventing the entire workflow from halting unexpectedly.
-*   **DSPy Model Configuration Failures**: The `_setup_dspy_lm` method in `DSPyManipWorkflow` attempts to configure DSPy with multiple preferred Gemini models. It includes `try-except` blocks to catch exceptions during model initialization. If no suitable model can be successfully configured, a `ValueError` is raised.
+### Graphviz
 
-### External Integrations and File Operations
+The project integrates with the `graphviz` library to generate workflow diagrams. This integration allows the tool to create visual representations of the project's architecture, making it easier to understand the relationships between different components.
 
-The workflow interacts with external systems and performs file operations at various stages:
-*   **Google Gemini API**: This is the primary external integration. All LLM-based tasks, including natural language understanding, content generation, and multimodal PDF text extraction, are performed by interacting with Google's Generative AI services via the `google.genai` client library.
-*   **File Input**:
-    *   **Reading `prompts/prompt1.txt`**: This file is read at initialization to load global Manim code generation guidelines, which are crucial instructions for the `ManimCodeGenerator`.
-    *   **Reading Input Document**: The system supports reading content from both plain text files (e.g., `.txt`, `.md`) and PDF files (`.pdf`) provided as the input educational document.
-*   **File Output**:
-    *   **Writing Generated Manim File**: The `save_code` method within `DSPyManipWorkflow` is responsible for writing the final generated Manim Python script to a specified `.py` file. This output file includes a custom metadata header.
+### PyMuPDF
 
-### Design Patterns
+The project integrates with the `PyMuPDF` library to generate PDF documents. This integration allows the tool to create professional-looking documents that include the generated documentation content and workflow diagrams.
 
-*   **Pipeline Architecture**: The entire workflow is structured as a clear, **sequential pipeline**, where each stage (represented by a DSPy Module) consumes the output of the preceding stage and produces refined input for the next. This modularity enhances maintainability, debuggability, and extensibility.
-*   **DSPy as an Orchestration Layer**: DSPy serves as the central framework for orchestrating interactions with LLMs. It provides high-level abstractions (`Signature` for defining LLM interfaces, `Module` for encapsulating workflow steps) that manage complex prompt engineering, LLM calls, and structured data flow.
-*   **Chain-of-Thought (CoT)**: This prominent prompting strategy is a core design choice, encouraging LLMs to perform complex reasoning by breaking down problems into intermediate, verifiable steps. This leads to more robust and accurate outputs compared to single-shot prompting.
-*   **Structured Prompting**: The system employs extensive and highly detailed structured prompts, often with designated sections for context, instructions, examples, and output formats. This meticulous **prompt engineering** is crucial for effectively guiding and constraining LLM outputs to meet specific technical and pedagogical requirements.
-*   **Injected Code**: The inclusion of the `UniversalLabelingSystem` class definition directly into the `ManimCodeGenerator`'s prompt is a sophisticated design pattern. It enables the system to provide the LLM with predefined, functional Python code, thereby **forcing the LLM to integrate and utilize** this specific utility in its generated output. This technique offers a high degree of control over the structure and functionality of the generated code.
-*   **Generative AI for Complex Cognitive Tasks**: Beyond simple text generation, the system leverages LLMs for a range of complex cognitive tasks, including educational content analysis, pedagogical sequence planning, detailed visual storyboard design, and the generation of executable, syntactically correct Manim code. This showcases a sophisticated application of generative AI in a practical engineering context.
+## Configuration and Environment Setup
+
+To run the Code2Doc project, the following configuration and environment setup steps are required:
+
+1.  **Install Dependencies:** Install the required Python dependencies using `pip install -r requirements.txt`.
+2.  **Set up Environment Variables:** Create a `.env` file and set the necessary environment variables, including the Google Gemini API key. An example would be `GOOGLE_API_KEY="your_api_key_here"`.
+3.  **Install Graphviz:** Install the `graphviz` library on your system. This may require installing additional packages depending on your operating system. Ensure that the Graphviz executables are on your system's PATH.
+4.  **Configure AI Agent:** Configure the AI agent with the appropriate settings, including the model to use and the tasks to perform.
+5.  **Run the Application:** Run the `main.py` script with the GitHub repository URL as input.
+
+## Error Handling
+
+The Code2Doc project includes error handling mechanisms to gracefully handle potential issues, such as invalid repository URLs, AI agent failures, and PDF generation errors. The error handling strategy involves the following:
+
+1.  **Input Validation:** Validating the input data, such as the GitHub repository URL, to ensure that it is in the correct format.
+2.  **Exception Handling:** Using `try-except` blocks to catch exceptions that may occur during the execution of the code.
+3.  **Logging:** Logging error messages to a file or console to facilitate debugging and troubleshooting.
+4.  **Retry Mechanisms:** Implementing retry mechanisms for transient errors, such as network connectivity issues.
+5.  **User Feedback:** Providing informative error messages to the user to help them understand the issue and take corrective action.
 
 ## Conclusion
 
-### Summary of Capabilities
+The Code2Doc project provides a comprehensive solution for automating the generation of technical documentation from source code repositories. By leveraging AI-driven analysis, workflow diagram generation, and PDF export capabilities, the tool streamlines the documentation process and ensures that documentation remains consistent with the codebase.
 
-The `dspy_manim_workflow.py` system represents a robust and innovative approach to automating the creation of educational Manim animations. By integrating the DSPy framework with Google's Gemini models, it delivers a comprehensive pipeline that:
-*   **Extracts and Structures Educational Content**: Processes raw documents to identify key concepts, formulas, and explanations.
-*   **Addresses Knowledge Gaps Proactively**: Identifies and explains prerequisite concepts, ensuring pedagogical completeness.
-*   **Generates Pedagogical Plans**: Formulates detailed teaching sequences and strategies.
-*   **Designs Cinematic Storyboards**: Translates educational plans into comprehensive visual and narrative animation specifications.
-*   **Produces High-Quality Manim Code**: Generates executable Python scripts adhering to strict animation lifecycles and incorporating advanced labeling systems.
-*   **Offers Enhanced Features**: Supports optional generation of refined narration and highly detailed visual storyboards.
-*   **Ensures Reliability**: Implements robust error handling, including exponential backoff for API interactions.
+Key features and capabilities include:
 
-### Key Takeaways
+*   Automated documentation generation from GitHub repositories.
+*   AI-powered analysis using Google's Gemini 2.0.
+*   Workflow diagram generation using Graphviz.
+*   PDF export with embedded diagrams using PyMuPDF.
+*   Comprehensive documentation covering project overview, architecture, implementation details, and dependencies.
 
-The success of this system highlights several critical aspects of LLM-driven software development:
-*   **The power of DSPy**: As an orchestration layer, DSPy effectively transforms LLMs from mere text generators into programmable components within a complex workflow.
-*   **Importance of Structured Prompting**: Detailed and explicit prompt engineering is essential for controlling LLM output, especially when generating code or highly structured content.
-*   **Injecting Logic for Control**: Providing the LLM with pre-defined helper code (like `UniversalLabelingSystem`) is a powerful method to ensure specific functionality and adherence to desired architectural patterns in generated code.
-*   **Pedagogical AI Integration**: The system demonstrates how LLMs can be utilized not just for content creation, but also for intelligent pedagogical planning and knowledge gap analysis, enhancing the educational value of generated materials.
-*   **Robustness is Key**: Mechanisms like exponential backoff are crucial for building reliable systems that interact with external APIs, especially in generative AI contexts where interactions can be resource-intensive.
+Potential use cases and applications include:
 
-### Potential Applications and Future Considerations
+*   Generating documentation for internal projects.
+*   Documenting open-source libraries.
+*   Creating technical specifications for enterprise applications.
+*   Onboarding new team members.
+*   Understanding legacy code.
 
-The `dspy_manim_workflow` has significant potential in various educational and content creation domains. Future considerations and potential enhancements could include:
-*   **Multilingual Support**: Extending content extraction and generation to multiple languages.
-*   **Interactive Element Generation**: Further enhancing the generation of interactive Manim elements for more engaging learning experiences.
-*   **Real-time Feedback and Iteration**: Developing mechanisms for users to provide feedback on generated storyboards or code, allowing for iterative refinement by the LLM.
-*   **Customizable Pedagogical Styles**: Allowing users to specify different teaching styles or audience levels (e.g., beginner, expert) to influence the planning and narration.
-*   **Integration with Learning Management Systems (LMS)**: Direct integration for seamless deployment of generated animations.
-*   **Performance Optimization**: Exploring more efficient LLM models or parallel processing techniques for faster generation times.
-*   **Broader Content Modalities**: Expanding input capabilities beyond text and PDF to include images, videos, or even raw data for visualization.
-*   **Code Quality Refinement**: Implementing static analysis tools or code review LLMs post-generation to further improve Manim code quality and adherence to best practices.
+Future considerations and extensibility points include:
+
+*   Supporting additional documentation formats, such as HTML and JSON.
+*   Integrating with other AI models and code analysis tools.
+*   Adding support for different diagram types.
+*   Improving the accuracy and completeness of the generated documentation.
+*   Adding more customization options for the documentation format and style.

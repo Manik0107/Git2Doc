@@ -43,14 +43,14 @@ num_nodes = len(nodes)
 num_layers = len(set(node["layer"] for node in nodes))
 
 # Dynamic height calculation: base height + additional height per layer
-base_height = 8
-height_per_layer = 3
+base_height = 10  # Increased from 8
+height_per_layer = 4  # Increased from 3
 calculated_height = base_height + (num_layers * height_per_layer)
 
 # Dynamic width calculation: base width + additional width based on nodes
-base_width = 12
+base_width = 16  # Increased from 12
 width_factor = max(1, num_nodes / 10)
-calculated_width = base_width + (width_factor * 2)
+calculated_width = base_width + (width_factor * 3)  # Increased multiplier
 
 dot = Digraph(
     name="ProjectWorkflow",
@@ -61,7 +61,7 @@ dot = Digraph(
 dot.attr(
     rankdir=meta.get("layout", "LR"),  # Left-to-right layout by default
     labelloc="t",
-    fontsize="24",  # Larger title font
+    fontsize="28",  # Larger title font
     fontname="Arial Bold",
     label=meta.get("title", "Project Workflow Diagram"),
     compound="true",
@@ -70,8 +70,8 @@ dot.attr(
     size=f"{calculated_width},{calculated_height}!",  # Dynamic size with ! to force it
     ratio="auto",
     # Better spacing for cleaner appearance
-    nodesep="2.0",  # Increased horizontal spacing between nodes
-    ranksep="2.5",  # Increased vertical spacing between ranks/layers
+    nodesep="2.5",  # Increased horizontal spacing between nodes
+    ranksep="3.0",  # Increased vertical spacing between ranks/layers
     # Visual enhancements
     bgcolor="white",
     splines="curved",  # Curved edges for smoother, more professional look
@@ -99,12 +99,12 @@ for layer in sorted(layers.keys()):
                 shape=node_style.get("shape", "box"),
                 fillcolor=node_style.get("color", "lightgray"),
                 fontname="Arial Bold",  # Bold font for better visibility
-                fontsize="16",  # Larger font for better readability
+                fontsize="20",  # Larger font for better readability (increased from 16)
                 fontcolor="white" if node["type"] in ["external", "output"] else "black",
-                penwidth="2.5",  # Slightly thicker borders
-                margin="0.5,0.3",  # More padding inside nodes
-                height="0.8",  # Taller nodes for better proportions
-                width="2.5"  # Wider nodes for better readability
+                penwidth="3.0",  # Thicker borders (increased from 2.5)
+                margin="0.6,0.4",  # More padding inside nodes
+                height="1.0",  # Taller nodes (increased from 0.8)
+                width="3.2"  # Wider nodes (increased from 2.5)
             )
 
 # ---------- 5. Draw edges ----------
