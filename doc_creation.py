@@ -37,6 +37,27 @@ def generate_pdf(input_file="content.txt", output_file="simple_document.pdf"):
     # Initial page
     page = doc.new_page(width=width, height=height)
     
+    # Function to draw page border
+    def draw_page_border(page):
+        """Draw a decorative border around the page"""
+        border_margin = 20  # Distance from page edge
+        border_color = (0.2, 0.2, 0.2)  # Dark gray
+        border_width = 1.5
+        
+        # Outer border rectangle
+        outer_rect = fitz.Rect(border_margin, border_margin, 
+                              width - border_margin, height - border_margin)
+        page.draw_rect(outer_rect, color=border_color, width=border_width)
+        
+        # Inner accent line (slightly inside the outer border)
+        inner_margin = border_margin + 3
+        inner_rect = fitz.Rect(inner_margin, inner_margin,
+                              width - inner_margin, height - inner_margin)
+        page.draw_rect(inner_rect, color=(0.5, 0.5, 0.5), width=0.5)
+    
+    # Draw border on the initial page
+    draw_page_border(page)
+    
     # Counter for numbered lists
     list_counter = {}  # Track counters for different list levels
 
@@ -120,6 +141,182 @@ def generate_pdf(input_file="content.txt", output_file="simple_document.pdf"):
             return match.group(1), match.group(2)  # alt_text, image_path
         return None, None
     
+    # Function to check if line is a blockquote (potential info box)
+    def is_blockquote(line):
+        """Check if line starts with > (markdown blockquote)"""
+        return line.strip().startswith('>')
+    
+    # Function to extract blockquote content
+    def extract_blockquote_content(line):
+        """Remove > prefix from blockquote"""
+        return line.strip()[1:].strip()
+    
+    # Function to check if line starts a code block
+    def is_code_fence(line):
+        """Check if line is a code fence (``` or ~~~)"""
+        stripped = line.strip()
+        return stripped.startswith('```') or stripped.startswith('~~~')
+    
+
+    # Function to draw a box with border (for callouts, code blocks, etc.)
+    def draw_box(page, x_pos, y, width_val, height_val, fill_color=None, border_color=(0, 0, 0), border_width=1):
+        """Draw a rectangle box with optional fill and border"""
+        rect = fitz.Rect(x_pos, y, x_pos + width_val, y + height_val)
+        
+        # Draw filled rectangle if fill color provided
+        if fill_color:
+            page.draw_rect(rect, color=None, fill=fill_color, width=0)
+        
+        # Draw border
+        if border_color and border_width > 0:
+            page.draw_rect(rect, color=border_color, fill=None, width=border_width)
+        
+        return rect
+    
+    # Function to insert an info box (for important notes)
+    def insert_info_box(page, doc, x_pos, y, text_content, box_width, box_type="info"):
+        """
+        Insert a highlighted box with text for important information
+        box_type can be: 'info' (blue), 'warning' (yellow), 'important' (red), 'tip' (green), 'code' (gray)
+        """
+        padding = 10
+        fontsize = body_fontsize
+        line_height = fontsize * 1.4
+        
+        # Define box colors based on type
+        box_styles = {
+            "info": {
+                "fill": (0.85, 0.92, 0.98),      # Light blue
+                "border": (0.13, 0.58, 0.84),    # Blue
+                "icon": "ℹ️",
+                "title": "INFO"
+            },
+            "warning": {
+                "fill": (1.0, 0.96, 0.8),         # Light yellow
+                "border": (0.95, 0.77, 0.06),     # Yellow/Orange
+                "icon": "⚠️",
+                "title": "WARNING"
+            },
+            "important": {
+                "fill": (0.99, 0.89, 0.89),       # Light red
+                "border": (0.86, 0.15, 0.15),     # Red
+                "icon": "❗",
+                "title": "IMPORTANT"
+            },
+            "tip": {
+                "fill": (0.88, 0.97, 0.88),       # Light green
+                "border": (0.16, 0.66, 0.36),     # Green
+                "icon": "💡",
+                "title": "TIP"
+            },
+            "code": {
+                "fill": (0.95, 0.95, 0.95),       # Light gray
+                "border": (0.4, 0.4, 0.4),        # Dark gray
+                "icon": "💻",
+                "title": "CODE"
+            }
+        }
+        
+        style = box_styles.get(box_type, box_styles["info"])
+        
+        # Calculate text wrapping
+        words = text_content.split()
+        lines = []
+        current_line = ""
+        max_text_width = box_width - (2 * padding)
+        
+        for word in words:
+            test_line = current_line + (" " if current_line else "") + word
+            text_width = fitz.get_text_length(test_line, fontsize=fontsize, fontname="helv")
+            
+            if text_width > max_text_width and current_line:
+                lines.append(current_line)
+                current_line = word
+            else:
+                current_line = test_line
+        
+        if current_line:
+            lines.append(current_line)
+        
+        # Calculate box height (title + content lines + padding)
+        title_height = (fontsize + 2) * 1.5
+        content_height = len(lines) * line_height
+        box_height = title_height + content_height + (2 * padding) + 5
+        
+        # Check if we need a new page
+        if y + box_height > height - margin:
+            page = doc.new_page(width=width, height=height)
+            draw_page_border(page)
+            y = margin
+        
+        # Draw the box
+        draw_box(page, x_pos, y, box_width, box_height, 
+                fill_color=style["fill"], 
+                border_color=style["border"], 
+                border_width=2)
+        
+        # Draw title bar
+        title_bar_height = title_height
+        draw_box(page, x_pos, y, box_width, title_bar_height, 
+                fill_color=style["border"], 
+                border_color=None, 
+                border_width=0)
+        
+        # Insert title text
+        title_text = f"{style['icon']} {style['title']}"
+        page.insert_text((x_pos + padding, y + title_height - 5), 
+                        title_text, 
+                        fontsize=fontsize + 1, 
+                        fontname="hebo", 
+                        color=(1, 1, 1))  # White text
+        
+        # Insert content lines
+        content_y = y + title_bar_height + padding
+        for line in lines:
+            page.insert_text((x_pos + padding, content_y), 
+                            line, 
+                            fontsize=fontsize, 
+                            fontname="helv")
+            content_y += line_height
+        
+        # Return new y position with increased spacing after box
+        return page, doc, y + box_height + (fontsize * 1.8)  # Balanced spacing after info boxes
+    
+    # Function to insert highlighted code block
+    def insert_code_block(page, doc, x_pos, y, code_lines, box_width):
+        """Insert a code block with syntax highlighting background"""
+        padding = 12
+        code_fontsize = body_fontsize - 0.5
+        line_height = code_fontsize * 1.5
+        
+        # Calculate box height
+        box_height = (len(code_lines) * line_height) + (2 * padding)
+        
+        # Check if we need a new page
+        if y + box_height > height - margin:
+            page = doc.new_page(width=width, height=height)
+            draw_page_border(page)
+            y = margin
+        
+        # Draw code box with dark background
+        draw_box(page, x_pos, y, box_width, box_height,
+                fill_color=(0.13, 0.13, 0.13),  # Dark gray background
+                border_color=(0.3, 0.5, 0.7),    # Blue border
+                border_width=1.5)
+        
+        # Insert code lines
+        code_y = y + padding + code_fontsize
+        for line in code_lines:
+            # Use monospace font for code
+            page.insert_text((x_pos + padding, code_y),
+                            line,
+                            fontsize=code_fontsize,
+                            fontname="cour",  # Courier (monospace)
+                            color=(0.8, 0.95, 0.8))  # Light green text
+            code_y += line_height
+        
+        return page, doc, y + box_height + (body_fontsize * 1.8)  # Balanced spacing after code blocks
+    
     # Function to insert image into PDF
     def insert_image(page, doc, x_pos, y, image_path, max_width):
         """Insert an image into the PDF and return updated page, doc, and y position"""
@@ -148,6 +345,7 @@ def generate_pdf(input_file="content.txt", output_file="simple_document.pdf"):
             if y + scaled_height > height - margin:
                 # Need a new page
                 page = doc.new_page(width=width, height=height)
+                draw_page_border(page)
                 y = margin
             
             # Insert the image
@@ -227,6 +425,7 @@ def generate_pdf(input_file="content.txt", output_file="simple_document.pdf"):
                     # Check if we need a new page
                     if y > height - margin:
                         page = doc.new_page(width=width, height=height)
+                        draw_page_border(page)
                         y = margin
                 else:
                     line_text = test_text
@@ -262,14 +461,16 @@ def generate_pdf(input_file="content.txt", output_file="simple_document.pdf"):
                 # More conservative calculation: account for word wrapping by using 0.95 multiplier
                 total_text_width = fitz.get_text_length(full_text, fontsize=fontsize, fontname="helv")
                 estimated_lines = max(1, (total_text_width / max_width) * 0.95)
-                spacing = estimated_lines * line_height + (line_height * 1.5)
-                # Reduce spacing for list items (both nested and simple lists)
-                if indent_level > 0 or list_number is not None:
-                    spacing *= 0.7  # Tighter spacing for list items
+                # Reduce spacing for list items - use smaller base multiplier
+                if indent_level > 0 or list_number is not None or preserve_number:
+                    spacing = estimated_lines * line_height + (line_height * 0.9)  # Prevent multi-line overlap
+                else:
+                    spacing = estimated_lines * line_height + (line_height * 1.0)  # Normal paragraph spacing
                 y += spacing
             else:
                 # Text didn't fit, need new page
                 page = doc.new_page(width=width, height=height)
+                draw_page_border(page)
                 y = margin
                 text_rect = fitz.Rect(current_x, y - fontsize, current_x + max_width, height - margin)
                 page.insert_textbox(text_rect, full_text, 
@@ -278,13 +479,16 @@ def generate_pdf(input_file="content.txt", output_file="simple_document.pdf"):
                                    align=fitz.TEXT_ALIGN_JUSTIFY)
                 total_text_width = fitz.get_text_length(full_text, fontsize=fontsize, fontname="helv")
                 estimated_lines = max(1, (total_text_width / max_width) * 0.95)
-                spacing = estimated_lines * line_height + (line_height * 1.5)
-                # Reduce spacing for list items (both nested and simple lists)
-                if indent_level > 0 or list_number is not None:
-                    spacing *= 0.7  # Tighter spacing for list items
+                # Reduce spacing for list items - use smaller base multiplier  
+                if indent_level > 0 or list_number is not None or preserve_number:
+                    spacing = estimated_lines * line_height + (line_height * 0.9)  # Prevent multi-line overlap
+                else:
+                    spacing = estimated_lines * line_height + (line_height * 1.0)  # Normal paragraph spacing
                 y += spacing
         else:
             # Complex case: has bold text - manually justify
+            start_y = y  # Track starting position to calculate lines used
+            
             for text, is_bold in segments:
                 words = text.split(" ")
                 
@@ -304,18 +508,28 @@ def generate_pdf(input_file="content.txt", output_file="simple_document.pdf"):
                         # Check if we need a new page
                         if y > height - margin:
                             page = doc.new_page(width=width, height=height)
+                            draw_page_border(page)
                             y = margin
+                            start_y = y  # Reset start_y for new page
                             current_x = x_pos + (indent_level * nested_indent) + (list_indent if list_number else 0)
                     
                     # Insert word
                     page.insert_text((current_x, y), word_with_space, fontsize=fontsize, fontname=fontname)
                     current_x += fitz.get_text_length(word_with_space, fontsize=fontsize, fontname=fontname)
             
-            # Adjust line height based on indent level for nested items
-            if indent_level > 0:
-                y += line_height * 0.6  # Reduced spacing for nested list items
+            # Calculate how many lines were actually used
+            lines_used = max(1, ((y - start_y) / line_height) + 1)
+            
+            # Add spacing based on content type - NOW USING lines_used!
+            if indent_level > 0 or list_number is not None or preserve_number:
+                # List item - spacing proportional to actual lines used
+                # For 1 line: adds ~0.5 line height
+                # For 2 lines: adds ~0.7 line height  
+                # For 3 lines: adds ~0.9 line height
+                y += line_height * (0.3 + (lines_used * 0.8))
             else:
-                y += line_height
+                # Regular paragraph
+                y += line_height + (line_height * 0.8)
         
         return page, doc, y
 
@@ -366,8 +580,9 @@ def generate_pdf(input_file="content.txt", output_file="simple_document.pdf"):
                 caption_text = lines[i + caption_offset].strip('*').strip()
                 caption_text = re.sub(r'^\d+\.\s*', '', caption_text)
                 
-                if y > height - margin - 30:
+                if y > height - margin:
                     page = doc.new_page(width=width, height=height)
+                    draw_page_border(page)
                     y = margin
                 
                 # Insert caption centered
@@ -383,6 +598,62 @@ def generate_pdf(input_file="content.txt", output_file="simple_document.pdf"):
             y += body_fontsize * 0.2  # Reduced from 0.5
             continue
         
+        # Check for code block start
+        if is_code_fence(line):
+            # Collect all code lines until closing fence
+            code_lines = []
+            j = i + 1
+            while j < len(lines) and not is_code_fence(lines[j]):
+                code_lines.append(lines[j])
+                j += 1
+            
+            # Insert code block
+            if code_lines:
+                box_width = width - (2 * margin)
+                page, doc, y = insert_code_block(page, doc, x, y, code_lines, box_width)
+            
+            # Skip the code lines we just processed
+            skip_lines = j - i
+            continue
+        
+        # Check for blockquote (convert to info box)
+        if is_blockquote(line):
+            # Collect consecutive blockquote lines
+            blockquote_text = extract_blockquote_content(line)
+            j = i + 1
+            while j < len(lines) and is_blockquote(lines[j]):
+                blockquote_text += " " + extract_blockquote_content(lines[j])
+                j += 1
+            
+            # Determine box type from content
+            box_type = "info"  # Default
+            content_lower = blockquote_text.lower()
+            
+            # Check for special keywords to determine box type
+            if any(keyword in content_lower for keyword in ["warning", "caution", "alert"]):
+                box_type = "warning"
+            elif any(keyword in content_lower for keyword in ["important", "critical", "note", "key"]):
+                box_type = "important"
+            elif any(keyword in content_lower for keyword in ["tip", "hint", "pro tip", "suggestion"]):
+                box_type = "tip"
+            elif any(keyword in content_lower for keyword in ["code", "example", "snippet"]):
+                box_type = "code"
+            
+            # Clean up the type prefix if present in text
+            for prefix in ["warning:", "important:", "tip:", "note:", "info:"]:
+                if blockquote_text.lower().startswith(prefix):
+                    blockquote_text = blockquote_text[len(prefix):].strip()
+                    break
+            
+            # Insert info box
+            box_width = width - (2 * margin)
+            page, doc, y = insert_info_box(page, doc, x, y, blockquote_text, box_width, box_type)
+            
+            # Skip the blockquote lines we just processed
+            skip_lines = (j - i - 1)
+            continue
+        
+
         # Skip empty lines but add minimal spacing
         # Track consecutive empty lines to avoid accumulating spacing
         if not line.strip():
@@ -396,6 +667,7 @@ def generate_pdf(input_file="content.txt", output_file="simple_document.pdf"):
         # Check if we need a new page before processing
         if y > height - margin - 30:  # Leave some buffer
             page = doc.new_page(width=width, height=height)
+            draw_page_border(page)
             y = margin
         
         # Determine line type and formatting
@@ -407,13 +679,14 @@ def generate_pdf(input_file="content.txt", output_file="simple_document.pdf"):
             heading_fontsize = main_heading_fontsize if heading_level == 1 else sub_heading_fontsize
             space_before_heading = heading_fontsize * (0.5 if heading_level == 1 else 0.3)
             space_for_heading = heading_fontsize * 1.5
-            space_for_body_preview = body_fontsize * 5  # Increased from 3 to 5 lines for better protection
+            space_for_body_preview = body_fontsize * 10  # Increased to 10 lines to keep heading with body
             total_space_needed = space_before_heading + space_for_heading + space_for_body_preview
             
             # Check if heading + some body content would fit on current page
             # If not, start a new page to keep heading with its content
             if y + total_space_needed > height - margin:
                 page = doc.new_page(width=width, height=height)
+                draw_page_border(page)
                 y = margin
             
             # Add extra spacing before headings (only if not at top of page)
