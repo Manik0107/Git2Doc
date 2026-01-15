@@ -50,9 +50,9 @@ def parse_github_url(url: str) -> str:
 # Parse GitHub URL to get owner/repo format (required by GithubTools)
 try:
     repo_name = parse_github_url(github_url)
-    print(f"📦 Repository: {repo_name}")
+    print(f"Repository: {repo_name}")
 except ValueError as e:
-    print(f"❌ Error: {e}")
+    print(f"Error: {e}")
     exit(1)
 
 
@@ -90,7 +90,7 @@ agent = Agent(
 )
 
 # Get repository file analysis
-print("🔍 Analyzing repository files...")
+print("Analyzing repository files...")
 print(f"   Note: Using GithubTools to read {repo_name}")
 
 # Create a specific, actionable prompt
@@ -348,7 +348,7 @@ This placeholder will be replaced with the actual workflow diagram image.""",
 )
 
 # Generate documentation
-print("📝 Generating documentation...")
+print("Generating documentation...")
 response1 = documenter.run("""Generate COMPLETE and COMPREHENSIVE technical documentation for the entire repository.
 
 IMPORTANT REQUIREMENTS:
@@ -375,7 +375,7 @@ output_file = "content.txt"
 with open(output_file, "w") as f:
     f.write(doc_content)
     
-print(f"✅ Documentation saved to {output_file}")
+print(f"Documentation saved to {output_file}")
 
 # Generate initial PDF (without workflow diagram)
 print("📄 Generating initial PDF...")
@@ -387,7 +387,7 @@ from doc_creation import generate_pdf
 
 print()
 print("=" * 60)
-print("🔄 Generating Workflow Diagram JSON...")
+print("Generating Workflow Diagram JSON...")
 print("=" * 60)
 print()
 
@@ -452,18 +452,18 @@ EDGE CREATION RULES:
 - Keep it linear and simple
 
 WHAT TO EXCLUDE (very important):
-- ❌ Individual function calls (load_dotenv, agent.run, etc.)
-- ❌ Configuration nodes (instructions, prompts, settings)
-- ❌ Intermediate variables or responses
-- ❌ Helper utilities unless they're a major component
-- ❌ Token/credential nodes unless they're a key external service
-- ❌ Environment variables
+- Individual function calls (load_dotenv, agent.run, etc.)
+- Configuration nodes (instructions, prompts, settings)
+- Intermediate variables or responses
+- Helper utilities unless they're a major component
+- Token/credential nodes unless they're a key external service
+- Environment variables
 
 WHAT TO INCLUDE (focus on these):
-- ✅ Main entry script
-- ✅ Major processing stages (like "Analyze Repository", "Generate Docs")
-- ✅ Key external services (GitHub API, AI Model)
-- ✅ Final outputs (PDF, Documentation file)
+- Main entry script
+- Major processing stages (like "Analyze Repository", "Generate Docs")
+- Key external services (GitHub API, AI Model)
+- Final outputs (PDF, Documentation file)
 
 ANALYSIS APPROACH:
 1. Identify the ONE main entry point
@@ -491,7 +491,7 @@ Remember: Return ONLY valid JSON, nothing else. Keep it SIMPLE and HIGH-LEVEL.""
 )
 
 # Generate workflow JSON
-print("🏗️  Analyzing repository architecture...")
+print("Analyzing repository architecture...")
 workflow_prompt = f"""Based on the following repository analysis, generate a simplified workflow diagram JSON with 5-10 key nodes showing only the high-level workflow stages.
 
 REPOSITORY ANALYSIS:
@@ -521,7 +521,7 @@ try:
     missing_keys = [key for key in required_keys if key not in workflow_data]
     
     if missing_keys:
-        print(f"⚠️  Warning: Generated JSON is missing required keys: {missing_keys}")
+        print(f"Warning: Generated JSON is missing required keys: {missing_keys}")
         print("Attempting to fix...")
         
         # Add missing keys with defaults
@@ -567,18 +567,18 @@ try:
     print(f"   - Title: {workflow_data.get('meta', {}).get('title', 'N/A')}")
     
 except json.JSONDecodeError as e:
-    print(f"❌ Error: Failed to parse workflow JSON: {e}")
+    print(f"Error: Failed to parse workflow JSON: {e}")
     print("Raw response:")
     print(workflow_json_str[:500])  # Print first 500 chars for debugging
     
     # Save the raw response for debugging
     with open("workflow_debug.txt", "w") as f:
         f.write(workflow_json_str)
-    print("⚠️  Raw response saved to workflow_debug.txt for debugging")
+    print("Raw response saved to workflow_debug.txt for debugging")
 
 print()
 print("=" * 60)
-print("📊 Generating workflow diagram...")
+print("Generating workflow diagram...")
 print("=" * 60)
 print()
 
@@ -603,7 +603,7 @@ except Exception as e:
 
 print()
 print("=" * 60)
-print("📝 Inserting workflow diagram into documentation...")
+print("Inserting workflow diagram into documentation...")
 print("=" * 60)
 print()
 
@@ -620,7 +620,7 @@ if os.path.exists(workflow_diagram_path):
     # Replace placeholder if it exists, otherwise insert after Introduction
     if "[WORKFLOW_DIAGRAM_PLACEHOLDER]" in doc_content:
         doc_content = doc_content.replace("[WORKFLOW_DIAGRAM_PLACEHOLDER]", diagram_markdown)
-        print("✅ Workflow diagram placeholder replaced")
+        print("Workflow diagram placeholder replaced")
     else:
         # Try to insert after Introduction section
         # Look for common patterns: "## Overview", "## Architecture", "## Components"
@@ -661,24 +661,24 @@ if os.path.exists(workflow_diagram_path):
     with open(output_file, "w") as f:
         f.write(doc_content)
     
-    print(f"✅ Updated documentation saved to {output_file}")
+    print(f"Updated documentation saved to {output_file}")
     
     # Now regenerate the PDF with the workflow diagram
     print()
-    print("📄 Generating final PDF with workflow diagram...")
+    print("Generating final PDF with workflow diagram...")
     generate_pdf(input_file=output_file, output_file="technical_documentation.pdf")
 else:
-    print("⚠️  Warning: Workflow diagram not found, generating PDF without it")
+    print("Warning: Workflow diagram not found, generating PDF without it")
     generate_pdf(input_file=output_file, output_file="technical_documentation.pdf")
 
 print()
 print("=" * 60)
-print("✅ All tasks completed!")
+print("All tasks completed!")
 print("=" * 60)
 print()
 print("Generated files:")
-print(f"  📄 {output_file} - Technical documentation (with workflow diagram)")
-print(f"  📕 technical_documentation.pdf - PDF documentation (with embedded diagram)")
-print(f"  🔄 project_workflow.json - Workflow structure")
-print(f"  🖼️  project_workflow_diagram.png - Workflow diagram")
+print(f"  {output_file} - Technical documentation (with workflow diagram)")
+print(f"  technical_documentation.pdf - PDF documentation (with embedded diagram)")
+print(f"  project_workflow.json - Workflow structure")
+print(f"  project_workflow_diagram.png - Workflow diagram")
 print("=" * 60)

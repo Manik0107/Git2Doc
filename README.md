@@ -1,4 +1,4 @@
-# 📚 Code2Doc: Automated Repository Documentation Generator
+# Code2Doc: Automated Repository Documentation Generator
 
 > **Transform any GitHub repository into comprehensive technical documentation with AI-powered workflow diagrams — automatically.**
 
@@ -8,15 +8,15 @@
 
 ---
 
-## 🎯 Overview
+## Overview
 
 **Code2Doc** is an intelligent documentation generator that converts GitHub repositories into professional, structured technical documentation using AI-powered analysis. It automatically:
 
-- 🤖 **Analyzes code** using Google's Gemini 2.0 Flash model
-- 📊 **Generates workflow diagrams** showing project architecture
-- 📝 **Creates comprehensive documentation** with proper formatting
-- 📕 **Produces professional PDFs** with embedded diagrams
-- 🎨 **Applies smart formatting** with headings, lists, and bold text
+- **Analyzes code** using Google's Gemini 2.0 Flash model
+- **Generates workflow diagrams** showing project architecture
+- **Creates comprehensive documentation** with proper formatting
+- **Produces professional PDFs** with embedded diagrams
+- **Applies smart formatting** with headings, lists, and bold text
 
 <p align="center">
   <img src="assets/code2doc_documentation_preview.png" width="45%" />
@@ -25,28 +25,28 @@
 
 ---
 
-## ✨ Key Features
+## Key Features
 
-### 🔍 Intelligent Repository Analysis
+### Intelligent Repository Analysis
 - Scans entire GitHub repositories using **GithubTools**
 - Identifies files, modules, functions, classes, and dependencies
 - Understands code structure and relationships
 - Extracts key technical information
 
-### 📊 Automatic Workflow Diagram Generation
+### Automatic Workflow Diagram Generation
 - Creates **high-level architectural diagrams** (5-10 nodes)
 - Visualizes project workflow and data flow
 - Renders professional diagrams at **300 DPI**
 - Embeds diagrams directly into documentation
 
-### 📝 Comprehensive Documentation
+### Comprehensive Documentation
 - Generates **Introduction** and **Conclusion** sections
 - Documents **all functions, classes, and methods**
 - Explains **dependencies, integrations, and workflows**
 - Uses **bold formatting** for important concepts
 - Properly structures content with clear headings
 
-### 📕 Professional PDF Output
+### Professional PDF Output
 - Creates **publication-ready PDFs**
 - Embeds workflow diagrams at optimal locations
 - Supports **custom typography** (19.5pt headings, 11.5pt body)
@@ -55,9 +55,7 @@
 
 ---
 
-
-
-## 📊 Workflow Architecture
+## Workflow Architecture
 
 Code2Doc follows this automated workflow:
 
@@ -75,7 +73,7 @@ Code2Doc follows this automated workflow:
 
 ---
 
-## 📂 Project Structure
+## Project Structure
 
 ```
 Code2Doc/
@@ -89,12 +87,12 @@ Code2Doc/
 │   ├── workflow_diagram.png        # Sample workflow diagram
 │   └── code2doc_documentation_preview.png
 └── examples/                       # Sample outputs
-    └── sample_output.pdf           # Example generated documentation
+    └── technical_documentation.pdf # Example generated documentation
 ```
 
 ---
 
-## 🎨 Sample Output
+## Sample Output
 
 ### Generated Files
 
@@ -102,39 +100,37 @@ After running Code2Doc, you'll get:
 
 | File | Description |
 |------|-------------|
-| 📄 `content.txt` | Markdown-formatted documentation with diagram references |
-| 📕 `technical_documentation.pdf` | **Professional PDF with embedded workflow diagram** |
-| 🔄 `project_workflow.json` | Structured workflow data (nodes and edges) |
-| 🖼️ `project_workflow_diagram.png` | High-resolution workflow diagram (300 DPI) |
+| `content.txt` | Markdown-formatted documentation with diagram references |
+| `technical_documentation.pdf` | **Professional PDF with embedded workflow diagram** |
+| `project_workflow.json` | Structured workflow data (nodes and edges) |
+| `project_workflow_diagram.png` | High-resolution workflow diagram (300 DPI) |
 
 ### Example Output
 
 **[View Sample Documentation PDF →](examples/sample_output.pdf)**
 
 The generated documentation includes:
-- ✅ **Introduction** — Project overview and context
-- ✅ **Workflow Diagram** — Visual architecture (automatically inserted)
-- ✅ **Architecture** — Component breakdown
-- ✅ **Implementation Details** — Functions, classes, and methods
-- ✅ **Dependencies** — External integrations
-- ✅ **Conclusion** — Key features and takeaways
+- **Introduction** — Project overview and context
+- **Workflow Diagram** — Visual architecture (automatically inserted)
+- **Architecture** — Component breakdown
+- **Implementation Details** — Functions, classes, and methods
+- **Dependencies** — External integrations
+- **Conclusion** — Key features and takeaways
 
 ---
 
+## Use Cases
 
-
-## 🎯 Use Cases
-
-- 📖 **Project Documentation** — Auto-generate README and technical docs
-- 🧑‍💻 **Code Understanding** — Quickly understand unfamiliar codebases
-- 🎓 **Onboarding** — Help new team members learn project structure
-- 🔍 **Code Review** — Get AI-powered insights into functionality
-- 🏛️ **Legacy Code** — Document undocumented systems
-- 📊 **Architecture Diagrams** — Visualize system workflows automatically
+- **Project Documentation** — Auto-generate README and technical docs
+- **Code Understanding** — Quickly understand unfamiliar codebases
+- **Onboarding** — Help new team members learn project structure
+- **Code Review** — Get AI-powered insights into functionality
+- **Legacy Code** — Document undocumented systems
+- **Architecture Diagrams** — Visualize system workflows automatically
 
 ---
 
-## 📦 Dependencies
+## Dependencies
 
 | Package | Purpose |
 |---------|---------|
@@ -153,17 +149,13 @@ uv sync  # or pip install -r requirements.txt
 
 ---
 
-
-
-## 📄 License
+## License
 
 This project is licensed under the **Apache License 2.0** - see the [LICENSE](LICENSE) file for details.
 
 ---
 
-
-
-## 🤝 Contributing
+## Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request.
 
@@ -175,26 +167,25 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 
 ---
 
-## 🗺️ Roadmap
+## Roadmap
 
-- [x] ✅ AI-powered repository analysis
-- [x] ✅ Automatic workflow diagram generation
-- [x] ✅ PDF generation with embedded diagrams
-- [x] ✅ Professional formatting and typography
-- [ ] 🔄 Multiple output formats (Markdown, HTML)
-- [ ] 🔄 Batch processing for multiple repositories
-- [ ] 🔄 Custom documentation templates
-- [ ] 🔄 Integration with documentation platforms (Read the Docs, GitBook)
-- [ ] 🔄 Interactive web UI
-- [ ] 🔄 Code quality metrics and analysis
-- [ ] 🔄 Automated documentation updates on commits
-- [ ] 🔄 Multi-language support (currently Python-focused)
+- [x] AI-powered repository analysis
+- [x] Automatic workflow diagram generation
+- [x] PDF generation with embedded diagrams
+- [x] Professional formatting and typography
+- [ ] Multiple output formats (Markdown, HTML)
+- [ ] Batch processing for multiple repositories
+- [ ] Custom documentation templates
+- [ ] Integration with documentation platforms (Read the Docs, GitBook)
+- [ ] Interactive web UI
+- [ ] Code quality metrics and analysis
+- [ ] Automated documentation updates on commits
+- [ ] Multi-language support (currently Python-focused)
 
 ---
 
 <div align="center">
 
-
-⭐ **Star this repository if you find it helpful!** ⭐
+**Star this repository if you find it helpful!**
 
 </div>

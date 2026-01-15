@@ -25,7 +25,7 @@ if "Graphviz" not in os.environ["PATH"]:
 input_file = "project_workflow.json"
 
 if not os.path.exists(input_file):
-    print(f"❌ Error: {input_file} not found!")
+    print(f"Error: {input_file} not found!")
     print("Please run main.py first to generate the workflow JSON.")
     exit(1)
 
@@ -120,6 +120,6 @@ for edge in edges:
 # ---------- 6. Render ----------
 try:
     output_path = dot.render("project_workflow_diagram")
-    print(f"✅ Successfully generated: {output_path}")
+    print(f"Successfully generated: {output_path}")
 except Exception as e:
-    print(f"❌ Error generating diagram: {e}")
+    print(f"Error generating diagram: {e}")

@@ -188,31 +188,26 @@ def generate_pdf(input_file="content.txt", output_file="simple_document.pdf"):
             "info": {
                 "fill": (0.85, 0.92, 0.98),      # Light blue
                 "border": (0.13, 0.58, 0.84),    # Blue
-                "icon": "ℹ️",
                 "title": "INFO"
             },
             "warning": {
                 "fill": (1.0, 0.96, 0.8),         # Light yellow
                 "border": (0.95, 0.77, 0.06),     # Yellow/Orange
-                "icon": "⚠️",
                 "title": "WARNING"
             },
             "important": {
                 "fill": (0.99, 0.89, 0.89),       # Light red
                 "border": (0.86, 0.15, 0.15),     # Red
-                "icon": "❗",
                 "title": "IMPORTANT"
             },
             "tip": {
                 "fill": (0.88, 0.97, 0.88),       # Light green
                 "border": (0.16, 0.66, 0.36),     # Green
-                "icon": "💡",
                 "title": "TIP"
             },
             "code": {
                 "fill": (0.95, 0.95, 0.95),       # Light gray
                 "border": (0.4, 0.4, 0.4),        # Dark gray
-                "icon": "💻",
                 "title": "CODE"
             }
         }
@@ -263,7 +258,7 @@ def generate_pdf(input_file="content.txt", output_file="simple_document.pdf"):
                 border_width=0)
         
         # Insert title text
-        title_text = f"{style['icon']} {style['title']}"
+        title_text = f"{style['title']}"
         page.insert_text((x_pos + padding, y + title_height - 5), 
                         title_text, 
                         fontsize=fontsize + 1, 
@@ -328,7 +323,7 @@ def generate_pdf(input_file="content.txt", output_file="simple_document.pdf"):
                     image_path = os.path.join(os.getcwd(), image_path)
                 
                 if not os.path.exists(image_path):
-                    print(f"⚠️  Warning: Image not found: {image_path}")
+                    print(f"Warning: Image not found: {image_path}")
                     return page, doc, y
             
             # Open the image to get its dimensions
@@ -357,7 +352,7 @@ def generate_pdf(input_file="content.txt", output_file="simple_document.pdf"):
             
             return page, doc, y
         except Exception as e:
-            print(f"⚠️  Warning: Failed to insert image {image_path}: {e}")
+            print(f"Warning: Failed to insert image {image_path}: {e}")
             return page, doc, y
 
     # Function to insert text with proper formatting
@@ -743,7 +738,7 @@ def generate_pdf(input_file="content.txt", output_file="simple_document.pdf"):
     # Save PDF
     doc.save(output_file)
     doc.close()
-    print(f"✅ PDF generated successfully: {output_file}")
+    print(f"PDF generated successfully: {output_file}")
 
 # Allow running as standalone script
 if __name__ == "__main__":
