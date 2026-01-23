@@ -223,3 +223,6 @@ test_output.pdf
 # Ignore old workflow files
 workflow.json
 workflow.py
+
+# Mac OS
+.DS_Store
