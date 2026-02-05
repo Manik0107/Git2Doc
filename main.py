@@ -57,7 +57,7 @@ except ValueError as e:
 
 
 agent = Agent(
-    model=OpenRouter(id="google/gemini-2.0-flash-001"),
+    model=Gemini(id="gemini-2.5-flash"),
     instructions=[
         f"You are analyzing the GitHub repository: {repo_name}",
         "You have GithubTools available to read repository data.",
@@ -121,7 +121,7 @@ response = agent.run(analysis_prompt)
 # Create documentation agent with proper Agno configuration
 documenter = Agent(
     name="DocumentationSpecialist",
-    model=OpenRouter(id="google/gemini-2.0-flash-001", max_tokens=8000),  # Increased token limit
+    model=Gemini(id="gemini-2.5-flash"),  # Using Gemini API directly
     description="Software documentation specialist that produces formal technical documentation from repository analysis",
     
     # Instructions - comprehensive but flexible structure
@@ -394,7 +394,7 @@ print()
 # Create workflow generation agent
 workflow_agent = Agent(
     name="WorkflowArchitect",
-    model=OpenRouter(id="google/gemini-2.0-flash-001"),
+    model=Gemini(id="gemini-2.5-flash"),
     description="Software architecture specialist that analyzes repository structure and generates workflow diagrams in JSON format",
     
     instructions="""You are a software architecture specialist responsible for analyzing code repositories and generating HIGH-LEVEL workflow diagrams.

@@ -1,5 +1,5 @@
 [project]
-name = "code2doc"
+name = "Git2Doc"
 version = "0.1.0"
 description = "Add your description here"
 readme = "README.md"
