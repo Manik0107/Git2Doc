@@ -1,3 +1,13 @@
+---
+title: Git2Doc
+emoji: 🐢
+colorFrom: Red
+colorTo: black
+sdk: docker
+pinned: false
+license: apache-2.0
+---
+
 # Code2Doc: Automated Repository Documentation Generator
 
 > **Transform any GitHub repository into comprehensive technical documentation with AI-powered workflow diagrams — automatically.**
@@ -189,13 +199,3 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 **Star this repository if you find it helpful!**
 
 </div>
-
----
-title: Git2Doc
-emoji: 🐢
-colorFrom: Red
-colorTo: black
-sdk: docker
-pinned: false
-license: apache-2.0
----
