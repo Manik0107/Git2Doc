@@ -1,0 +1,18 @@
+fastapi==0.109.0
+uvicorn[standard]==0.27.0
+sqlalchemy==2.0.25
+passlib[bcrypt]==1.7.4
+python-jose[cryptography]==3.3.0
+python-multipart==0.0.6
+pydantic[email]==2.10.5
+PyPDF2==3.0.1
+
+# Existing Git2Doc dependencies
+agno>=2.3.12
+google-genai>=1.55.0
+graphviz>=0.21
+pymupdf>=1.26.7
+requests>=2.32.5
+python-dotenv>=1.0.0
+crawl4ai>=0.7.8
+pygithub>=2.8.1
