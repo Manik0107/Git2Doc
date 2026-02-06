@@ -1,0 +1,70 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+.venv/
+ENV/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual environments
+.uv/
+uv.lock
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Environment variables (should be set in HF Spaces settings)
+.env
+
+# Database (will be created fresh)
+git2doc.db
+
+# Storage (will be created fresh)
+storage/
+
+# Git
+.git/
+.gitignore
+
+# Node modules (frontend)
+UI/node_modules/
+UI/dist/
+UI/build/
+
+# Documentation
+*.md
+!README.md
+
+# Testing
+.pytest_cache/
+*.coverage
+htmlcov/
+
+# Scripts
+run_backend.sh

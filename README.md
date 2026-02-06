@@ -189,3 +189,13 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 **Star this repository if you find it helpful!**
 
 </div>
+
+---
+title: Git2Doc
+emoji: 🐢
+colorFrom: Red
+colorTo: black
+sdk: docker
+pinned: false
+license: apache-2.0
+---
