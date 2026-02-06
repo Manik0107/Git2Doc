@@ -23,8 +23,11 @@ async def generate_documentation_task(
     4. Updates database with file info and status
     """
     
-    # Create output directory
-    output_dir = Path(f"storage/documents/{doc_id}")
+    # Get the Git2Doc root directory first
+    git2doc_root = Path(__file__).parent.parent.parent.absolute()
+    
+    # Create output directory as absolute path
+    output_dir = git2doc_root / f"storage/documents/{doc_id}"
     output_dir.mkdir(parents=True, exist_ok=True)
     
     # Prepare the question/prompt for main.py
@@ -36,10 +39,6 @@ async def generate_documentation_task(
         f.write(f"{repo_url}\n{question}\n")
     
     try:
-        # Call existing main.py in subprocess
-        # We need to run from the Git2Doc root directory
-        git2doc_root = Path(__file__).parent.parent.parent.absolute()
-        
         # Set up environment with PYTHONPATH
         env = os.environ.copy()
         env['PYTHONPATH'] = str(git2doc_root)
