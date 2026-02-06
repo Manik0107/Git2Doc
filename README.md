@@ -1,8 +1,8 @@
 ---
 title: Git2Doc
 emoji: 🐢
-colorFrom: Red
-colorTo: black
+colorFrom: red
+colorTo: purple
 sdk: docker
 pinned: false
 license: apache-2.0
