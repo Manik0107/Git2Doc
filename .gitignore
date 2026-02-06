@@ -195,3 +195,7 @@ workflow.py
 
 # Mac OS
 .DS_Store
+
+# Large PDF files (too big for HF Spaces)
+examples/*.pdf
+*.pdf
