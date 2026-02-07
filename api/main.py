@@ -19,6 +19,7 @@ app.add_middleware(
         "http://localhost:5173",  # Vite dev server
         "http://localhost:8080",  # Vite dev server (alternative port)
         "http://localhost:3000",  # Alternative port
+        "https://git2-doc-997m.vercel.app",  # Vercel production frontend
         "https://*.hf.space",     # Hugging Face Spaces
     ],
     allow_credentials=True,
