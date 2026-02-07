@@ -1,6 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import { FileText, Mail, Phone, ArrowRight, Check } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useAuth } from "@/hooks/useAuth";
 
 const Signup = () => {
@@ -11,7 +11,14 @@ const Signup = () => {
   const [phone, setPhone] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
-  const { signup, signupWithPhone } = useAuth();
+  const { signup, signupWithPhone, user } = useAuth();
+
+  // Redirect if already logged in
+  useEffect(() => {
+    if (user) {
+      navigate("/dashboard");
+    }
+  }, [user, navigate]);
 
   const features = [
     "3 free documents every month",
@@ -179,7 +186,7 @@ const Signup = () => {
               <label className="block text-sm font-medium mb-2">Full Name</label>
               <input
                 type="text"
-                placeholder="John Doe"
+                placeholder="User name"
                 value={fullName}
                 onChange={(e) => setFullName(e.target.value)}
                 className="w-full px-4 py-3 rounded-lg bg-input border border-border focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all"

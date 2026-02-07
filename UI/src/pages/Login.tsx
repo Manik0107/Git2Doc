@@ -1,6 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import { FileText, Mail, Phone, ArrowRight } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useAuth } from "@/hooks/useAuth";
 
 const Login = () => {
@@ -10,7 +10,14 @@ const Login = () => {
   const [phone, setPhone] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
-  const { login, loginWithPhone } = useAuth();
+  const { login, loginWithPhone, user } = useAuth();
+
+  // Redirect if already logged in
+  useEffect(() => {
+    if (user) {
+      navigate("/dashboard");
+    }
+  }, [user, navigate]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
